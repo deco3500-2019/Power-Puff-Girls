@@ -2,11 +2,7 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-}
-
-.App-header {
+/* .App-header {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -15,8 +11,26 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-}
+} */
 
 .App-link {
   color: #09d3ac;
+}
+
+.menu{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.menuItem{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1em;
+  text-decoration: none;
+  background-color: antiquewhite;
 }
