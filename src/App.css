@@ -23,7 +23,9 @@
   left: 0;
   width: 100%;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  border-top: 1px solid black;
+  background-color: #fafafa;
 }
 
 .menuItem{
@@ -32,5 +34,9 @@
   align-items: center;
   padding: 1em;
   text-decoration: none;
-  background-color: antiquewhite;
+  background-color: #fafafa;
+}
+
+.menuItem:hover{
+  cursor: pointer;
 }
