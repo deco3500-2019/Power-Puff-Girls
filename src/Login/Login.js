@@ -1,23 +1,84 @@
 import React from 'react';
 import './Login.css';
 import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router';
+import App from '../App';
 
 class Login extends React.Component {
+    constructor() {
+        super();
+        this.state = {
+            redirect: false,
+            username: '',
+            password: '',
+            responseMessage: ''
+        }
+        this.login = this.login.bind(this);
+        this.type = this.type.bind(this);
+    }
+    login(event) {
+        event.preventDefault();
+        fetch('https://s4540545-ppg.uqcloud.net/php_files/connect_login.php', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                username: this.state.username,
+                password: this.state.password
+            })
+
+        }).then((response) => {
+            return response.json();
+        }).then((responseJson) => {
+            let response = responseJson;
+            if (response.success) {
+                sessionStorage.setItem('foodWaste-loggedIn', 'true');
+                this.setState({ redirect: true })
+            }
+            else {
+                this.setState({
+                    responseMessage: response.message
+                })
+            }
+        }).catch((error) => {
+            console.error(error);
+        });
+
+
+    }
+
+    type(event) {
+        const inputName = event.target.name;
+        const value = event.target.value;
+        this.setState({
+            [inputName]: value
+        })
+    }
+
     render() {
+        let { username, password } = this.state;
+        if (this.state.redirect) {
+            return <App />
+        }
         return (
-            <div className="body">
+            <form className="body">
                 <h1>Login</h1>
+                <div>{this.state.responseMessage}</div>
                 <div className="inputBox">
-                    <input type="text" placeholder="Username" className="loginInput" />
+                    <input type="text" name='username' placeholder="Username" className="loginInput"
+                        value={username} onChange={this.type} />
                 </div>
                 <div>
-                    <input type="password" placeholder="Password" className="loginInput" />
+                    <input type="password" name='password' placeholder="Password" className="loginInput"
+                        value={password} onChange={this.type} />
                 </div>
-                <Link to="/profile" className="menuItem">Log In</Link>
+                <button type="submit" onClick={this.login} className="menuItem">Log In</button>
                 <Link to="/login" className="menuItem">Sign up</Link>
-            </div>
+            </form>
         )
     }
 }
 
 export default Login;
+
