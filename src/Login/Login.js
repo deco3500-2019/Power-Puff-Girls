@@ -1,7 +1,6 @@
 import React from 'react';
 import './Login.css';
 import { Link } from 'react-router-dom';
-import { Redirect } from 'react-router';
 import App from '../App';
 
 class Login extends React.Component {
@@ -27,7 +26,6 @@ class Login extends React.Component {
                 username: this.state.username,
                 password: this.state.password
             })
-
         }).then((response) => {
             return response.json();
         }).then((responseJson) => {
@@ -42,10 +40,11 @@ class Login extends React.Component {
                 })
             }
         }).catch((error) => {
-            console.error(error);
+            console.log(error);
+            this.setState({
+                responseMessage: "Sorry, an error occurred"
+            })
         });
-
-
     }
 
     type(event) {

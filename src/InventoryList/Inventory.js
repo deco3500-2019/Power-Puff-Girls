@@ -1,0 +1,90 @@
+import React from 'react';
+
+class Inventory extends React.Component {
+    constructor(){
+        super();
+        this.state = {
+            UserName: 'admin',
+            UserPassword: 'admin',
+            addItemName: '',
+            searchResults: []
+        }
+        this.search = this.search.bind(this);
+    }
+    search(event){
+        const value = event.target.value;
+        const searchResults = dummyListAllItems.filter(({item}) => {
+            return item.toLowerCase().includes(value.toLowerCase()); 
+        });
+        this.setState({
+            addItemName: value,
+            searchResults: value === ''? [] : searchResults 
+        })
+    }   
+    render() {
+        return (<div>
+            <h1>Inventory</h1>
+            <input search="text" placeholder="Add new item..." value={this.state.addItemName}
+                onChange={this.search} name="addItemName"/>
+            <div>{/* Search results section */}
+                {this.state.searchResults.map((result, index) => {
+                    return <li key={index}>{result.item}</li>
+                })}
+            </div>
+            <hr/>
+            <ul>
+                {dummyListInventoryForUser.map(({id, item}) => {
+                    return <li key={id}>{item}</li>
+                })}
+            </ul>
+        </div>
+        )
+    }
+}
+
+export default Inventory;
+
+const dummyListInventoryForUser = [
+    {
+        id: 1,
+        item: 'Avocado'
+        //etc
+    },
+    {
+        id: 2,
+        item: 'Banana'
+    }
+]
+const dummyListAllItems = [ 
+    {
+        id: 1,
+        item: 'Avocado',
+        expiry_date: '5 days',
+        measure: 'item'
+    },
+    {
+        id: 2,
+        item: 'Apples',
+        expiry_date: '10 days',
+        measure: 'item'
+    },
+    {
+        id: 3,
+        item: 'Bananas',
+        expiry_date: '7 days',
+        measure: 'item'
+    },
+    {
+        id: 4,
+        item: 'Pasta',
+        expiry_date: '300 days',
+        measure: 'gram'
+    },
+    {
+        id: 5,
+        item: 'Tomatoes',
+        expiry_date: '10 days',
+        measure: 'item'
+    },
+]
+
