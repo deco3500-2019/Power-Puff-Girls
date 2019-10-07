@@ -36,8 +36,8 @@ class Inventory extends React.Component {
 
     search(event) {
         const value = event.target.value;
-        const searchResults = dummyListAllItems.filter(({ item }) => {
-            return item.toLowerCase().includes(value.toLowerCase());
+        const searchResults = this.state.data.filter(({ name }) => {
+            return name.toLowerCase().includes(value.toLowerCase());
         });
         this.setState({
             addItemName: value,
