@@ -1,0 +1,19 @@
+.inventoryItem{
+    list-style-type: none;
+    text-align: left;
+    padding: 0.5em;
+    margin: 0;
+    background-color: #ece4b7;
+}
+.inventory{
+    margin: 0;
+    padding: 0;
+}
+
+.expandedItem{
+    background-color: #fdfcf7; 
+}
+
+.expandedSection{
+    background-color: #fdfcf7;
+}
