@@ -9,24 +9,29 @@ class Inventory extends React.Component {
             UserPassword: 'admin',
             addItemName: '',
             searchResults: [],
-            clicked: -1
+            clicked: -1,
+            loading: true
         }
         this.search = this.search.bind(this);
         this.expand = this.expand.bind(this);
-        /* setTimeout(
-            fetch('https://s4540545-ppg.uqcloud.net/php_files/inventory_connect.php', {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json'
-                } 
-            }).then((response) => {
-                console.log(response);
-                return response.json();
-            }).then((responseJson) => {
-                console.log(responseJson);
-            }).catch((error) => {
-                console.log(error);
-            }), 2000); */
+        fetch('https://s4540545-ppg.uqcloud.net/php_files/inventory_connect.php', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        }).then((response) => {
+            console.log(response);
+            return response.json();
+        }).then((responseJson) => {
+            this.setState({
+                loading: false,
+                data: [ ...responseJson ]
+            })
+            console.log(responseJson);
+
+        }).catch((error) => {
+            console.log(error);
+        });
     }
 
     search(event) {
@@ -48,7 +53,7 @@ class Inventory extends React.Component {
         })
     }
     render() {
-        const { clicked } = this.state;
+        const { clicked, loading, data } = this.state;
         return (<div>
             <h1>Inventory</h1>
             <input search="text" placeholder="Add new item..." value={this.state.addItemName}
@@ -60,12 +65,13 @@ class Inventory extends React.Component {
             </div>
             <hr />
             <ul className="inventory">
-                {dummyListInventoryForUser.map(({ id, item }, index) => {
-                    return <li key={id} className={'inventoryItem ' + (Number(clicked) === id ? 'expandedItem' : '')}
-                        id={id} onClick={this.expand}>
-                        {item}
-                        {Number(clicked) === id? 
-                        <p className="expandedSection">Lorem Ipsum dor si amet</p> : ''}
+                {loading? 'Loading..' :
+                    data.map(({ name, expiration }, index) => {
+                    return <li key={index} className={'inventoryItem ' + (Number(clicked) === name ? 'expandedItem' : '')}
+                        id={index} onClick={this.expand}>
+                        {name}
+                        {Number(clicked) === index ?
+                            <p className="expandedSection">Lorem Ipsum dor si amet</p> : ''}
                     </li>
                 })}
             </ul>
@@ -75,48 +81,3 @@ class Inventory extends React.Component {
 }
 
 export default Inventory;
-
-const dummyListInventoryForUser = [
-    {
-        id: 1,
-        item: 'Avocado'
-        //etc
-    },
-    {
-        id: 2,
-        item: 'Banana'
-    }
-]
-const dummyListAllItems = [
-    {
-        id: 1,
-        item: 'Avocado',
-        expiry_date: '5 days',
-        measure: 'item'
-    },
-    {
-        id: 2,
-        item: 'Apples',
-        expiry_date: '10 days',
-        measure: 'item'
-    },
-    {
-        id: 3,
-        item: 'Bananas',
-        expiry_date: '7 days',
-        measure: 'item'
-    },
-    {
-        id: 4,
-        item: 'Pasta',
-        expiry_date: '300 days',
-        measure: 'gram'
-    },
-    {
-        id: 5,
-        item: 'Tomatoes',
-        expiry_date: '10 days',
-        measure: 'item'
-    },
-]
-
