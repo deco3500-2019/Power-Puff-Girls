@@ -10,10 +10,13 @@ class Inventory extends React.Component {
             addItemName: '',
             searchResults: [],
             clicked: -1,
-            loading: true
+            loading: true,
+            allInventory: []
         }
         this.search = this.search.bind(this);
         this.expand = this.expand.bind(this);
+        this.addItem = this.addItem.bind(this);
+
         fetch('https://s4540545-ppg.uqcloud.net/php_files/inventory_connect.php', {
             method: 'GET',
             headers: {
@@ -32,11 +35,28 @@ class Inventory extends React.Component {
         }).catch((error) => {
             console.log(error);
         });
+
+        fetch('https://s4540545-ppg.uqcloud.net/php_files/get_all_inventory.php', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        }).then((response) => {
+            console.log(response);
+            return response.json();
+        }).then((responseJson) => {
+            this.setState({
+                allInventory: responseJson
+            })
+            console.log(responseJson);
+        }).catch((error) => {
+            console.log(error);
+        });
     }
 
     search(event) {
         const value = event.target.value;
-        const searchResults = this.state.data.filter(({ name }) => {
+        const searchResults = this.state.allInventory.filter(({ name }) => {
             return name.toLowerCase().includes(value.toLowerCase());
         });
         this.setState({
@@ -52,6 +72,27 @@ class Inventory extends React.Component {
             clicked: clicked === id ? -1 : id
         })
     }
+    addItem(event){
+        event.preventDefault();
+        fetch('https://s4540545-ppg.uqcloud.net/php_files/inventory_add.php', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                inventory_ID: Number(event.target.id)
+            })
+        }).then((response) => {
+            console.log(response);
+            return response.json();
+        }).then((responseJson) => {
+            console.log(responseJson);
+            //IF SUCCESS 
+            //Add item to state? 
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
     render() {
         const { clicked, loading, data } = this.state;
         return (<div>
@@ -60,7 +101,7 @@ class Inventory extends React.Component {
                 onChange={this.search} name="addItemName" />
             <div>{/* Search results section */}
                 {this.state.searchResults.map((result, index) => {
-                    return <li key={index}>{result.item}</li>
+                    return <li key={index} onClick={this.addItem} id={result.ID}>{result.name}</li>
                 })}
             </div>
             <hr />
