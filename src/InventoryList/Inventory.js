@@ -112,7 +112,7 @@ class Inventory extends React.Component {
                         id={index} onClick={this.expand}>
                         {name}
                         {Number(clicked) === index ?
-                            <p className="expandedSection">Lorem Ipsum dor si amet</p> : ''}
+                            <p className="expandedSection">Lorem Ipsum dolor sit amet</p> : ''}
                     </li>
                 })}
             </ul>
