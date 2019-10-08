@@ -107,12 +107,20 @@ class Inventory extends React.Component {
             <hr />
             <ul className="inventory">
                 {loading? 'Loading..' :
-                    data.map(({ name, expiration }, index) => {
+                    data.map(({ name, expiration, place }, index) => {
                     return <li key={index} className={'inventoryItem ' + (Number(clicked) === name ? 'expandedItem' : '')}
                         id={index} onClick={this.expand}>
                         {name}
                         {Number(clicked) === index ?
-                            <p className="expandedSection">Lorem Ipsum dolor sit amet</p> : ''}
+                            <section className="expandedSection">
+                                <h1>{name}</h1>
+                                <h3>{expiration}</h3>
+                                <p>{place}</p>
+                                <input type="number" placeholder="5"></input>
+                                <button type="button" name="subtract">-</button>
+                                <button type="button">+</button>
+                                <button type="button" name="delete">Remove item</button>
+                                </section> : ''}
                     </li>
                 })}
             </ul>
