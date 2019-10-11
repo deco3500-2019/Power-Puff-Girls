@@ -1,68 +1,65 @@
 import React from 'react';
 import './Inventory.css';
+import * as fb from './../server.js'
 
 class Inventory extends React.Component {
     constructor() {
         super();
         this.state = {
-            UserName: 'admin',
-            UserPassword: 'admin',
             addItemName: '',
             searchResults: [],
             clicked: -1,
             loading: true,
-            allInventory: []
+            allInventory: [],
+            data: []
         }
         this.search = this.search.bind(this);
         this.expand = this.expand.bind(this);
         this.addItem = this.addItem.bind(this);
 
-        fetch('https://s4540545-ppg.uqcloud.net/php_files/inventory_connect.php', {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json'
-            }
-        }).then((response) => {
-            console.log(response);
-            return response.json();
-        }).then((responseJson) => {
-            this.setState({
-                loading: false,
-                data: [ ...responseJson ]
+        const userId = sessionStorage.getItem('user_id');
+        fb.database.ref(`Users/${userId}`).on('value', ((item) => {
+            const idList = item.val().inventory;
+            let data = []
+            idList.forEach((item) => {
+                fb.database.ref(`inventory/${item.id}`).once('value').then((inventoryItem) => {
+                    data = [...data, inventoryItem.val()];
+                }).then(() => {
+                    this.setState({
+                        data,
+                        loading: false
+                    })
+                })
             })
-            console.log(responseJson);
-
-        }).catch((error) => {
-            console.log(error);
-        });
-
-        fetch('https://s4540545-ppg.uqcloud.net/php_files/get_all_inventory.php', {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json'
-            }
-        }).then((response) => {
-            console.log(response);
-            return response.json();
-        }).then((responseJson) => {
-            this.setState({
-                allInventory: responseJson
-            })
-            console.log(responseJson);
-        }).catch((error) => {
-            console.log(error);
-        });
+        }))
     }
 
     search(event) {
         const value = event.target.value;
-        const searchResults = this.state.allInventory.filter(({ name }) => {
-            return name.toLowerCase().includes(value.toLowerCase());
-        });
-        this.setState({
-            addItemName: value,
-            searchResults: value === '' ? [] : searchResults
-        })
+        if (this.state.allInventory.length === 0) {
+            fb.getAllInventory().then((item) => {
+                this.setState({
+                    allInventory: item
+                })
+            }).then(() => {
+                const searchResults = this.state.allInventory.filter(({ name }) => {
+                    return name.toLowerCase().includes(value.toLowerCase());
+                });
+                this.setState({
+                    addItemName: value,
+                    searchResults: value === '' ? [] : searchResults
+                })
+            })
+        }
+        else {
+            const searchResults = this.state.allInventory.filter(({ name }) => {
+                return name.toLowerCase().includes(value.toLowerCase());
+            });
+            this.setState({
+                addItemName: value,
+                searchResults: value === '' ? [] : searchResults
+            })
+        }
     }
 
     expand(event) {
@@ -72,26 +69,10 @@ class Inventory extends React.Component {
             clicked: clicked === id ? -1 : id
         })
     }
-    addItem(event){
+    addItem(event) {
         event.preventDefault();
-        fetch('https://s4540545-ppg.uqcloud.net/php_files/inventory_add.php', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                inventory_ID: Number(event.target.id)
-            })
-        }).then((response) => {
-            console.log(response);
-            return response.json();
-        }).then((responseJson) => {
-            console.log(responseJson);
-            //IF SUCCESS 
-            //Add item to state? 
-        }).catch((error) => {
-            console.log(error);
-        });
+        const item = Number(event.target.id);
+        fb.addInventoryItem(item, 3);
     }
     render() {
         const { clicked, loading, data } = this.state;
@@ -101,28 +82,28 @@ class Inventory extends React.Component {
                 onChange={this.search} name="addItemName" />
             <div>{/* Search results section */}
                 {this.state.searchResults.map((result, index) => {
-                    return <li key={index} onClick={this.addItem} id={result.ID}>{result.name}</li>
+                    return <li key={index} onClick={this.addItem} id={result.id}>{result.name}</li>
                 })}
             </div>
             <hr />
             <ul className="inventory">
-                {loading? 'Loading..' :
+                {loading ? 'Loading..' :
                     data.map(({ name, expiration, place }, index) => {
-                    return <li key={index} className={'inventoryItem ' + (Number(clicked) === name ? 'expandedItem' : '')}
-                        id={index} onClick={this.expand}>
-                        {name}
-                        {Number(clicked) === index ?
-                            <section className="expandedSection">
-                                <h1>{name}</h1>
-                                <h3>{expiration}</h3>
-                                <p>{place}</p>
-                                <input type="number" placeholder="5"></input>
-                                <button type="button" name="subtract">-</button>
-                                <button type="button">+</button>
-                                <button type="button" name="delete">Remove item</button>
+                        return <li key={index} className={'inventoryItem ' + (Number(clicked) === name ? 'expandedItem' : '')}
+                            id={index} onClick={this.expand}>
+                            {name}
+                            {Number(clicked) === index ?
+                                <section className="expandedSection">
+                                    <h1>{name}</h1>
+                                    <h3>{expiration}</h3>
+                                    <p>{place}</p>
+                                    <input type="number" placeholder="5"></input>
+                                    <button type="button" name="subtract">-</button>
+                                    <button type="button">+</button>
+                                    <button type="button" name="delete">Remove item</button>
                                 </section> : ''}
-                    </li>
-                })}
+                        </li>
+                    })}
             </ul>
         </div>
         )
