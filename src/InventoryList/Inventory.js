@@ -99,8 +99,9 @@ class Inventory extends React.Component {
                                     <p>{place}</p>
                                     <input type="number" placeholder="5"></input>
                                     <button type="button" name="subtract">-</button>
-                                    <button type="button">+</button>
-                                    <button type="button" name="delete">Remove item</button>
+                                    <button type="button">+</button><br></br>
+                                    <button type="button" name="Throw">Throw</button>
+                                    <button type="button" name="Use">Use</button>
                                 </section> : ''}
                         </li>
                     })}
