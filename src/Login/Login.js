@@ -2,6 +2,7 @@ import React from 'react';
 import './Login.css';
 import { Link } from 'react-router-dom';
 import App from '../App';
+import * as fb from './../server.js'
 
 class Login extends React.Component {
     constructor() {
@@ -17,34 +18,17 @@ class Login extends React.Component {
     }
     login(event) {
         event.preventDefault();
-        fetch('https://s4540545-ppg.uqcloud.net/php_files/connect_login.php', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                username: this.state.username,
-                password: this.state.password
-            })
-        }).then((response) => {
-            return response.json();
-        }).then((responseJson) => {
-            let response = responseJson;
-            if (response.success) {
+        fb.login(this.state.username, this.state.password).then((result) => {
+            if (result.success) {
                 sessionStorage.setItem('foodWaste-loggedIn', 'true');
                 this.setState({ redirect: true })
             }
             else {
                 this.setState({
-                    responseMessage: response.message
-                })
+                    responseMessage: result.message
+                });
             }
-        }).catch((error) => {
-            console.log(error);
-            this.setState({
-                responseMessage: "Sorry, an error occurred"
-            })
-        });
+        })
     }
 
     type(event) {
