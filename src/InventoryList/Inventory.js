@@ -1,6 +1,10 @@
 import React from 'react';
 import './Inventory.css';
 import * as fb from './../server.js'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+
+const element = <FontAwesomeIcon icon={faCoffee} />
 
 class Inventory extends React.Component {
     constructor() {
@@ -77,9 +81,9 @@ class Inventory extends React.Component {
     render() {
         const { clicked, loading, data } = this.state;
         return (<div>
-            <h1>Inventory</h1>
+            <h1 className="title">Inventory</h1>
             <input search="text" placeholder="Add new item..." value={this.state.addItemName}
-                onChange={this.search} name="addItemName" />
+                onChange={this.search} name="addItemName" className="searchbar"/>
             <div>{/* Search results section */}
                 {this.state.searchResults.map((result, index) => {
                     return <li key={index} onClick={this.addItem} id={result.id}>{result.name}</li>
@@ -91,17 +95,17 @@ class Inventory extends React.Component {
                     data.map(({ name, expiration, place }, index) => {
                         return <li key={index} className={'inventoryItem ' + (Number(clicked) === name ? 'expandedItem' : '')}
                             id={index} onClick={this.expand}>
-                            {name}
+                            <h1>{name}</h1><p>Expire in {expiration}</p>
                             {Number(clicked) === index ?
                                 <section className="expandedSection">
-                                    <h1>{name}</h1>
-                                    <h3>{expiration}</h3>
-                                    <p>{place}</p>
+                                    <p>Avarage expiration: {expiration}<br></br>
+                                    {place}</p>
+                                    <FontAwesomeIcon icon="coffee" />
                                     <input type="number" placeholder="5"></input>
                                     <button type="button" name="subtract">-</button>
                                     <button type="button">+</button><br></br>
-                                    <button type="button" name="Throw">Throw</button>
-                                    <button type="button" name="Use">Use</button>
+                                    <button type="button" name="Throw" onClick="" className="throw">Throw</button>
+                                    <button type="button" name="Use" onClick="" className="use">Use</button>
                                 </section> : ''}
                         </li>
                     })}

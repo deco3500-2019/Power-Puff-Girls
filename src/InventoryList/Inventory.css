@@ -1,19 +1,53 @@
+@import url('https://fonts.googleapis.com/css?family=Lobster|Open+Sans+Condensed:300&display=swap');
+
+body{
+    background: rgb(236,228,183);
+    background: linear-gradient(0deg, rgba(236,228,183,1) 0%, rgba(242,129,35,1) 100%);
+    font-family: 'Open Sans Condensed', sans-serif;
+}
 .inventoryItem{
     list-style-type: none;
     text-align: left;
     padding: 0.5em;
     margin: 0;
-    background-color: #ece4b7;
+    background-color: #fff;
+    margin-bottom: 10px;
+    border-radius: 5px;
 }
 .inventory{
     margin: 0;
     padding: 0;
+    background: transparent;
 }
-
+.title{
+    font-family: 'Lobster', cursive;
+    color: #fff;
+}
 .expandedItem{
     background-color: #fdfcf7; 
 }
 
 .expandedSection{
     background-color: #fdfcf7;
+}
+.inventory{
+margin: 10px;
+}
+
+.inventoryItem h1{
+    font-size: 20px;
+    margin: 0px;
+}
+.inventoryItem p{
+    font-size: 14px;
+    margin: 0px;
+}
+.inventoryItem:hover{
+    cursor: pointer;
+}
+.searchbar{
+    height: 20px;
+    width: 350px;
+    border-radius: 5px;
+    background-color: #fff;
 }
