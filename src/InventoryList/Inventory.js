@@ -67,7 +67,7 @@ class Inventory extends React.Component {
     }
 
     expand(event) {
-        const id = event.target.id;
+        const id = Number(event.target.id);
         const { clicked } = this.state;
         this.setState({
             clicked: clicked === id ? -1 : id
@@ -93,19 +93,19 @@ class Inventory extends React.Component {
             <ul className="inventory">
                 {loading ? 'Loading..' :
                     data.map(({ name, expiration, place }, index) => {
-                        return <li key={index} className={'inventoryItem ' + (Number(clicked) === name ? 'expandedItem' : '')}
+                        return <li key={index} className={'inventoryItem ' + (clicked === index ? 'expandedItem' : '')}
                             id={index} onClick={this.expand}>
-                            <h1>{name}</h1><p>Expire in {expiration}</p>
-                            {Number(clicked) === index ?
-                                <section className="expandedSection">
-                                    <p>Avarage expiration: {expiration}<br></br>
+                            <h1 id={index}>{name}</h1><p>Expire in {expiration}</p>
+                            {clicked === index ?
+                                <section className="expandedSection" id={index}>
+                                    <p id={index}>Avarage expiration: {expiration}<br></br>
                                     {place}</p>
-                                    <FontAwesomeIcon icon="coffee" />
-                                    <input type="number" placeholder="5"></input>
-                                    <button type="button" name="subtract">-</button>
+                                    <FontAwesomeIcon icon="coffee" id={index}/>
+                                    <input type="number" placeholder="5" id={index}></input>
+                                    <button type="button" name="subtract" id={index}>-</button>
                                     <button type="button">+</button><br></br>
-                                    <button type="button" name="Throw" onClick="" className="throw">Throw</button>
-                                    <button type="button" name="Use" onClick="" className="use">Use</button>
+                                    <button type="button" name="Throw" className="throw">Throw</button>
+                                    <button type="button" name="Use" className="use">Use</button>
                                 </section> : ''}
                         </li>
                     })}
