@@ -104,7 +104,7 @@ class Inventory extends React.Component {
                                     <input type="number" placeholder="5" id={index}></input>
                                     <button type="button" name="subtract" id={index}>-</button>
                                     <button type="button">+</button><br></br>
-                                    <button type="button" name="Throw" className="throw">Throw</button>
+                                    <button type="button" name="Throw" className="throw" onClick={fb.deleteItem}>Throw</button>
                                     <button type="button" name="Use" className="use">Use</button>
                                 </section> : ''}
                         </li>

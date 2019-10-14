@@ -51,3 +51,8 @@ export function addInventoryItem(id, quantity) {
             } 
         })
 }
+export function deleteItem(){
+    const userId = sessionStorage.getItem('user_id');
+    database.ref(`Users/${userId}`).update({thrown:1})
+    
+}
