@@ -5,6 +5,10 @@ import Profile from './Profile/Profile';
 import Inventory from './InventoryList/Inventory';
 import GroceryList from './GroceryList/GroceryList';
 import Login from './Login/Login';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
+import { faArchive } from '@fortawesome/free-solid-svg-icons'
 
 function App() {
   return (
@@ -18,9 +22,9 @@ function App() {
             <Route path="/" render={() => (<Redirect to="/inventory" />)} />
           </Switch>
           <div className="menu">
-            <Link to="/inventory" className="menuItem">Inventory</Link>
-            <Link to="/groceryList" className="menuItem">Grocery List</Link>
-            <Link to="/profile" className="menuItem">Profile</Link>
+            <Link to="/inventory" className="menuItem"><FontAwesomeIcon icon={faShoppingCart}/></Link>
+            <Link to="/groceryList" className="menuItem"><FontAwesomeIcon icon={faArchive}/></Link>
+            <Link to="/profile" className="menuItem"><FontAwesomeIcon icon={faUser}/></Link>
           </div>
         </div>
         :

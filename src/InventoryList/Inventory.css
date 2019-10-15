@@ -91,7 +91,7 @@ hr{
     position: absolute;
     right: 80px;
     margin-top: -20px;
-    font-family: Roboto;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 10px;
@@ -101,7 +101,7 @@ hr{
     position: absolute;
     right: 80px;
     margin-top: -35px;
-    font-family: Roboto;
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 10px;
@@ -114,8 +114,18 @@ hr{
     margin-right: 10px;
 }
 .select{
-    color: #fff;
+    color: #FFC971;
     border: none;
     text-decoration: none;
     margin-left: 10px;
+}
+.fa-chevron-down{
+    position: absolute;
+    right: 30px;
+    margin-top: -35px;
+}
+.activelink{
+    background-color: #FFC971;
+    padding: 5px 5px 0px 5px;
+    border-radius: 4px;
 }
