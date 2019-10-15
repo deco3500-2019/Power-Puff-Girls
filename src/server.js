@@ -38,51 +38,53 @@ export function addInventoryItem(id, quantity) {
             const value = item.val();
             let alreadyInDatabase = false;
             value.forEach((item) => {
-                if(item.id === id){
+                if (item.id === id) {
                     alreadyInDatabase = true
                 }
             })
             count = value.length
-            if(!alreadyInDatabase){
+            if (!alreadyInDatabase) {
                 return database.ref(`Users/${userId}/inventory/${count}`).set({
                     id,
                     quantity
                 })
-            } 
+            }
         })
 }
-export function throwAway(name){
-    let id;
-    console.log(name + " param")
+export function throwAway(id) {
+    //let id;
+    console.log(id);
     const userId = sessionStorage.getItem('user_id');
-    database.ref(`inventory`).once('value').then((item)=>{
-        item.val().forEach((data)=>{
-            if(data.name === name ) {
+
+    database.ref(`Users/${userId}/thrown`).once('value').then((count) => {
+        let thrownCount = (count.val() !== 0) ? (count.val()) : (0);
+        database.ref(`Users/${userId}`).update({ thrown: thrownCount + 1 });
+
+        database.ref(`Users/${userId}/inventory/`).once('value').then((data) => {
+            let inventory = data.val();
+            console.log(inventory)
+            console.log(Object.keys(inventory));
+            inventory.forEach((entry, index) => {
+                //let index = inventory.indexOf(entry);
+                if (entry.id === id) {
+                    return database.ref(`Users/${userId}/inventory/${index}`).remove();      
+                }
+            });
+        });
+    });
+
+   /*  database.ref(`inventory`).once('value').then((item) => {
+        item.val().forEach((data) => {
+            if (data.name === name) {
                 id = data.id;
             }
         })
 
-        database.ref(`Users/${userId}/thrown`).once('value').then((count)=>{
-            let thrownCount = (count.val() != 0) ? (count.val()) : (0); 
-            database.ref(`Users/${userId}`).update({thrown:thrownCount+1});
-            database.ref(`Users/${userId}/inventory/`).once('value').then((data) =>{
-                let inventory = data.val();
-                console.log(inventory)
-                console.log(Object.keys(inventory));
-                inventory.forEach((entry) => {
-                    let index = inventory.indexOf(entry);
-                    if(entry.id === id){
-                        database.ref(`Users/${userId}/inventory/${index}`).remove();
-                        return;
-                    }
-                });
-            });
-        });
 
-    });
+    }); */
 }
-export function useItem(){
+export function useItem() {
     const userId = sessionStorage.getItem('user_id');
-    database.ref(`Users/${userId}`).update({used:1})
+    database.ref(`Users/${userId}`).update({ used: 1 })
 
 }
