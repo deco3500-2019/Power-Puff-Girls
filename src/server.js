@@ -52,8 +52,6 @@ export function addInventoryItem(id, quantity) {
         })
 }
 export function throwAway(id) {
-    //let id;
-    console.log(id);
     const userId = sessionStorage.getItem('user_id');
 
     database.ref(`Users/${userId}/thrown`).once('value').then((count) => {
@@ -62,29 +60,36 @@ export function throwAway(id) {
 
         database.ref(`Users/${userId}/inventory/`).once('value').then((data) => {
             let inventory = data.val();
-            console.log(inventory)
-            console.log(Object.keys(inventory));
             inventory.forEach((entry, index) => {
-                //let index = inventory.indexOf(entry);
                 if (entry.id === id) {
-                    return database.ref(`Users/${userId}/inventory/${index}`).remove();      
+                    return database.ref(`Users/${userId}/inventory/${Number(index)}`).remove().then(() => {
+                        database.ref(`Users/${userId}/inventory/`).once('value').then((newInventoryData) => {
+                            //Going through all data to update the index
+                            let list = []; 
+                            newInventoryData.val().forEach(newData => {
+                                //To ignore the missing indexes
+                                list = [...list, newData];
+                            })
+                            database.ref(`Users/${userId}/inventory`).set(
+                                list //Update the database with correct indexes
+                            )
+                        });
+                    });
                 }
             });
         });
     });
-
-   /*  database.ref(`inventory`).once('value').then((item) => {
-        item.val().forEach((data) => {
-            if (data.name === name) {
-                id = data.id;
-            }
-        })
-
-
-    }); */
 }
 export function useItem() {
     const userId = sessionStorage.getItem('user_id');
     database.ref(`Users/${userId}`).update({ used: 1 })
 
+}
+
+export function convertToArray(list) {
+    let newList = [];
+    Object.keys(list).forEach((key) => {
+        newList = [...newList, { listIndex: key, ...list[key] }];
+    })
+    return newList;
 }
