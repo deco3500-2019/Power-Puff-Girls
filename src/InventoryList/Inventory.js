@@ -2,7 +2,7 @@ import React from 'react';
 import './Inventory.css';
 import * as fb from './../server.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons'
 
 class Inventory extends React.Component {
     constructor() {
@@ -91,7 +91,7 @@ class Inventory extends React.Component {
             </div>
             <nav className="navbar">
                 <ul>
-                    <li><a href="#">All</a></li>
+                    <li><a href="#" className="activelink">All</a></li>
                     <li><a href="#">Fridge</a></li>
                     <li><a href="#">Freezer</a></li>
                     <li><a href="#">Dry Pantry</a></li>
@@ -105,7 +105,7 @@ class Inventory extends React.Component {
                             id={index} onClick={this.expand}>
                             <section className="header"><h1 id={index}>{name}</h1>
                             <p>Expire in {expiration}</p>
-                            <FontAwesomeIcon icon={faCoffee} id={index}/>
+                            <FontAwesomeIcon icon={faChevronDown} id={index} className="chevron"/>
                             <article className="quantity">1x</article>
                             <article className="place">{place}</article>
                             </section>

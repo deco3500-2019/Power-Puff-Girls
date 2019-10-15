@@ -22,10 +22,10 @@
   bottom: 0;
   left: 0;
   width: 100%;
+  height: 70px;
   display: flex;
   justify-content: space-between;
-  border-top: 1px solid black;
-  background-color: #fafafa;
+  background-color: #fff;
 }
 
 .menuItem{
@@ -36,7 +36,21 @@
   text-decoration: none;
   background-color: #fafafa;
 }
-
+.menuItem:active{
+  background: rgba(242, 153, 74, 0.4);
+}
 .menuItem:hover{
   cursor: pointer;
+}
+.fa-user{
+  color: #EE6352;
+  font-size: 35px;
+}
+.fa-archive{
+  color: #EE6352;
+  font-size: 35px;
+}
+.fa-shopping-cart{
+  color: #EE6352;
+  font-size: 35px;
 }
