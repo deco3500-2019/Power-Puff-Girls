@@ -3,6 +3,10 @@ import './Inventory.css';
 import * as fb from './../server.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faMinus } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 class Inventory extends React.Component {
     constructor() {
@@ -18,6 +22,8 @@ class Inventory extends React.Component {
         this.search = this.search.bind(this);
         this.expand = this.expand.bind(this);
         this.addItem = this.addItem.bind(this);
+        this.removeItem = this.removeItem.bind(this);
+        this.useItem = this.useItem.bind(this);
 
         const userId = sessionStorage.getItem('user_id');
         fb.database.ref(`Users/${userId}`).on('value', ((item) => {
@@ -77,11 +83,24 @@ class Inventory extends React.Component {
         const item = Number(event.target.id);
         fb.addInventoryItem(item, 3);
     }
+
+    removeItem(event){
+        event.preventDefault();
+        const item = Number(event.target.id);
+        fb.throwAway(item);
+    }
+
+    useItem(event){
+        event.preventDefault();
+        const item = Number(event.target.id);
+        fb.useItem(item);
+    }
+
     render() {
         const { clicked, loading, data } = this.state;
         return (<div>
             <a href="#" className="scan">Scan</a>
-            <input search="text" placeholder="Add new item..." value={this.state.addItemName}
+            <input search="text" placeholder="Add item" value={this.state.addItemName}
                 onChange={this.search} name="addItemName" className="searchbar" />
             <a href="#" className="select">Select</a>
             <div>{/* Search results section */}
@@ -105,17 +124,20 @@ class Inventory extends React.Component {
                             id={index} onClick={this.expand}>
                             <section className="header"><h1 id={index}>{name}</h1>
                                 <p>Expire in {expiration}</p>
-                                <FontAwesomeIcon icon={faChevronDown} id={index} className="chevron" />
+                                <FontAwesomeIcon icon={faChevronDown} id={index}/>
                                 <article className="quantity">1x</article>
                                 <article className="place">{place}</article>
                             </section>
                             {clicked === index ? //See if this can be converted to e.g. id to remove the collapse/throw/expand problem
                                 <section className="expandedSection" id={index}>
-                                    <input type="number" placeholder="5" id={index}></input>
-                                    <button type="button" name="subtract" id={index}>-</button>
-                                    <button type="button">+</button><br></br>
-                                    <button type="button" name="Throw" className="throw" onClick={() => { fb.throwAway(id) }}>Throw</button>
-                                    <button type="button" name="Use" className="use" onClick={fb.useItem}>Use</button>
+                                    <input type="number" placeholder="5" id={index} className="inputQuantity"></input>
+                                    <button type="button" name="subtract" id={index}><FontAwesomeIcon icon={faMinus}/></button>
+                                    <button type="button" name="add"><FontAwesomeIcon icon={faPlus}/></button><br></br><br></br>
+
+                                    <button type="button" name="tips" className="button">Tips<FontAwesomeIcon icon={faChevronRight}/></button><br></br>
+                                    <button type="button" name="recipes" className="button">Recipes<FontAwesomeIcon icon={faChevronRight}/></button><br></br>
+                                    <button type="button" name="Throw" className="throw" id={index} onClick={this.removeItem}>Throw</button>
+                                    <button type="button" name="Use" className="use" id={index} onClick={this.useItem}>Use</button>
                                 </section> : ''}
                         </li>
                     })}

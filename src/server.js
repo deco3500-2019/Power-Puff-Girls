@@ -58,31 +58,46 @@ export function throwAway(id) {
         let thrownCount = (count.val() !== 0) ? (count.val()) : (0);
         database.ref(`Users/${userId}`).update({ thrown: thrownCount + 1 });
 
-        database.ref(`Users/${userId}/inventory/`).once('value').then((data) => {
-            let inventory = data.val();
-            inventory.forEach((entry, index) => {
-                if (entry.id === id) {
-                    return database.ref(`Users/${userId}/inventory/${Number(index)}`).remove().then(() => {
-                        database.ref(`Users/${userId}/inventory/`).once('value').then((newInventoryData) => {
-                            //Going through all data to update the index
-                            let list = []; 
-                            newInventoryData.val().forEach(newData => {
-                                //To ignore the missing indexes
-                                list = [...list, newData];
-                            })
-                            database.ref(`Users/${userId}/inventory`).set(
-                                list //Update the database with correct indexes
-                            )
-                        });
-                    });
-                }
+        database.ref(`Users/${userId}/inventory/`).once('value').then(() => {
+            return database.ref(`Users/${userId}/inventory/${id}`).remove().then(() => {
+                database.ref(`Users/${userId}/inventory/`).once('value').then((newInventoryData) => {
+                    //Going through all data to update the index
+                    let list = []; 
+                    newInventoryData.val().forEach(newData => {
+                        //To ignore the missing indexes
+                        list = [...list, newData];
+                    })
+                    database.ref(`Users/${userId}/inventory`).set(
+                        list //Update the database with correct indexes
+                    )
+                });
             });
         });
     });
 }
-export function useItem() {
+export function useItem(id) {
     const userId = sessionStorage.getItem('user_id');
-    database.ref(`Users/${userId}`).update({ used: 1 })
+
+    database.ref(`Users/${userId}/used`).once('value').then((count) => {
+        let usedCount = (count.val() !== 0) ? (count.val()) : (0);
+        database.ref(`Users/${userId}`).update({ used: usedCount + 1 });
+
+        database.ref(`Users/${userId}/inventory/`).once('value').then(() => {
+            return database.ref(`Users/${userId}/inventory/${id}`).remove().then(() => {
+                database.ref(`Users/${userId}/inventory/`).once('value').then((newInventoryData) => {
+                    //Going through all data to update the index
+                    let list = []; 
+                    newInventoryData.val().forEach(newData => {
+                        //To ignore the missing indexes
+                        list = [...list, newData];
+                    })
+                    database.ref(`Users/${userId}/inventory`).set(
+                        list //Update the database with correct indexes
+                    )
+                });
+            });
+        });
+    });
 
 }
 
