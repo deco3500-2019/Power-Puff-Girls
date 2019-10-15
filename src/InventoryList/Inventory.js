@@ -104,7 +104,7 @@ class Inventory extends React.Component {
                 <a href="#" className="select">Select</a>
             <div>{/* Search results section */}
                 {this.state.searchResults.map((result, index) => {
-                    return <li key={index} onClick={this.addItem} id={result.id}>{result.name}</li>
+                    return <li key={index} onClick={this.addItem} id={result.id} className="result">{result.name}</li>
                 })}
             </div>
             <nav className="navbar">
@@ -129,12 +129,13 @@ class Inventory extends React.Component {
                             </section>
                             {clicked === index ?
                                 <section className="expandedSection" id={index}>
-                                    <p id={index}>Avarage expiration: {expiration}</p>
                                     <input type="number" placeholder="5" id={index}></input>
                                     <button type="button" name="subtract" id={index}>-</button>
-                                    <button type="button">+</button><br></br>
-                                    <button type="button" name="Throw" className="throw" onClick={()=>{fb.throwAway(id)}}>Throw</button>
-                                    <button type="button" name="Use" className="use" onClick={fb.useItem}>Use</button>
+                                    <button type="button" name="add">+</button><br></br>
+                                    <button type="button" name="add">Tips</button><br></br>
+                                    <button type="button" name="add">Recipe</button><br></br>
+                                    <button type="button" className="throw" name="Throw" className="throw" onClick={()=>{fb.throwAway(id)}}>Throw</button>
+                                    <button type="button" className="use" name="Use" className="use" onClick={fb.useItem}>Use</button>
                                 </section> : ''}
                         </li>
                     })}
