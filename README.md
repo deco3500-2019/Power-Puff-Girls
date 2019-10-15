@@ -10,9 +10,9 @@ https://github.com/deco3500-2019/Power-Puff-Girls/wiki/Project-Proposal
 https://github.com/deco3500-2019/Power-Puff-Girls/wiki/Low-Fidelity-Prototype
 
 *Instructions
-  1 . 
-  2 .
-  3 .
+  1 . one 
+  2 . two 
+  3 . three
 
 ## Link to Medium Fidelity Prototype
 
