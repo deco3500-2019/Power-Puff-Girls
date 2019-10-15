@@ -15,7 +15,7 @@ Before use the prototype from your phone please follow the instruction below.
   2. Create an account 
   3. Turn on the Wifi on your phone and select a Frame or Component on the canvas. 
 
-Other the option:
+Other the option:  
 You can test the prototype directly from the link and use the app from the website. 
 
 ## Link to Medium Fidelity Prototype
@@ -27,8 +27,7 @@ Before use the prototype from your phone please follow the instruction below.
   2. Create an account 
   3. Turn on the Wifi on your phone and select a Frame or Component on the canvas. 
 
-Other the option:
-  
+Other the option:  
 You can test the prototype directly from the link and use the app from the website. 
 
 ## Link to High Fidelity Prototype
