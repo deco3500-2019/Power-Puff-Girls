@@ -51,8 +51,38 @@ export function addInventoryItem(id, quantity) {
             } 
         })
 }
-export function deleteItem(){
+export function throwAway(name){
+    let id;
+    console.log(name + " param")
     const userId = sessionStorage.getItem('user_id');
-    database.ref(`Users/${userId}`).update({thrown:1})
-    
+    database.ref(`inventory`).once('value').then((item)=>{
+        item.val().forEach((data)=>{
+            if(data.name === name ) {
+                id = data.id;
+            }
+        })
+
+        database.ref(`Users/${userId}/thrown`).once('value').then((count)=>{
+            let thrownCount = (count.val() != 0) ? (count.val()) : (0); 
+            database.ref(`Users/${userId}`).update({thrown:thrownCount+1});
+            database.ref(`Users/${userId}/inventory/`).once('value').then((data) =>{
+                let inventory = data.val();
+                console.log(inventory)
+                console.log(Object.keys(inventory));
+                inventory.forEach((entry) => {
+                    let index = inventory.indexOf(entry);
+                    if(entry.id === id){
+                        database.ref(`Users/${userId}/inventory/${index}`).remove();
+                        return;
+                    }
+                });
+            });
+        });
+
+    });
+}
+export function useItem(){
+    const userId = sessionStorage.getItem('user_id');
+    database.ref(`Users/${userId}`).update({used:1})
+
 }

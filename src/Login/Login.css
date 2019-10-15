@@ -1,3 +1,9 @@
+body{
+    background-image: url(http://mjedesign.net/uq/images/bg.png);
+    background-size: cover;
+    font-family: 'Open Sans Condensed', sans-serif;
+    margin-top: 20px;
+}
 .loginInput{
     display: inline-block;
 }

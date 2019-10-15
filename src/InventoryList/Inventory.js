@@ -4,8 +4,6 @@ import * as fb from './../server.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCoffee } from '@fortawesome/free-solid-svg-icons'
 
-const element = <FontAwesomeIcon icon={faCoffee} />
-
 class Inventory extends React.Component {
     constructor() {
         super();
@@ -23,7 +21,7 @@ class Inventory extends React.Component {
 
         const userId = sessionStorage.getItem('user_id');
         fb.database.ref(`Users/${userId}`).on('value', ((item) => {
-            const idList = item.val().inventory;
+            let idList = item.val().inventory;
             let data = []
             idList.forEach((item) => {
                 fb.database.ref(`inventory/${item.id}`).once('value').then((inventoryItem) => {
@@ -69,6 +67,7 @@ class Inventory extends React.Component {
     expand(event) {
         const id = Number(event.target.id);
         const { clicked } = this.state;
+        console.log(id,clicked)
         this.setState({
             clicked: clicked === id ? -1 : id
         })
@@ -81,31 +80,43 @@ class Inventory extends React.Component {
     render() {
         const { clicked, loading, data } = this.state;
         return (<div>
-            <h1 className="title">Inventory</h1>
+            <a href="#" className="scan">Scan</a>
             <input search="text" placeholder="Add new item..." value={this.state.addItemName}
                 onChange={this.search} name="addItemName" className="searchbar"/>
+                <a href="#" className="select">Select</a>
             <div>{/* Search results section */}
                 {this.state.searchResults.map((result, index) => {
                     return <li key={index} onClick={this.addItem} id={result.id}>{result.name}</li>
                 })}
             </div>
+            <nav className="navbar">
+                <ul>
+                    <li><a href="#">All</a></li>
+                    <li><a href="#">Fridge</a></li>
+                    <li><a href="#">Freezer</a></li>
+                    <li><a href="#">Dry Pantry</a></li>
+                </ul>
+            </nav>
             <hr />
             <ul className="inventory">
                 {loading ? 'Loading..' :
                     data.map(({ name, expiration, place }, index) => {
                         return <li key={index} className={'inventoryItem ' + (clicked === index ? 'expandedItem' : '')}
                             id={index} onClick={this.expand}>
-                            <h1 id={index}>{name}</h1><p>Expire in {expiration}</p>
+                            <section className="header"><h1 id={index}>{name}</h1>
+                            <p>Expire in {expiration}</p>
+                            <FontAwesomeIcon icon={faCoffee} id={index}/>
+                            <article className="quantity">1x</article>
+                            <article className="place">{place}</article>
+                            </section>
                             {clicked === index ?
                                 <section className="expandedSection" id={index}>
-                                    <p id={index}>Avarage expiration: {expiration}<br></br>
-                                    {place}</p>
-                                    <FontAwesomeIcon icon="coffee" id={index}/>
+                                    <p id={index}>Avarage expiration: {expiration}</p>
                                     <input type="number" placeholder="5" id={index}></input>
                                     <button type="button" name="subtract" id={index}>-</button>
                                     <button type="button">+</button><br></br>
-                                    <button type="button" name="Throw" className="throw" onClick={fb.deleteItem}>Throw</button>
-                                    <button type="button" name="Use" className="use">Use</button>
+                                    <button type="button" name="Throw" className="throw" onClick={()=>{fb.throwAway(name)}}>Throw</button>
+                                    <button type="button" name="Use" className="use" onClick={fb.useItem}>Use</button>
                                 </section> : ''}
                         </li>
                     })}
