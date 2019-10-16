@@ -1,12 +1,8 @@
+import { faChevronDown, faChevronRight, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
+import * as fb from './../server.js';
 import './Inventory.css';
-import * as fb from './../server.js'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { faMinus } from '@fortawesome/free-solid-svg-icons';
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 class Inventory extends React.Component {
     constructor() {
@@ -32,7 +28,7 @@ class Inventory extends React.Component {
             let arrayList = fb.convertToArray(idList);
             arrayList.forEach((item) => {
                 fb.database.ref(`inventory/${item.id}`).once('value').then((inventoryItem) => {
-                    data = [...data, inventoryItem.val()];
+                    data = [...data, { ...inventoryItem.val(), quantity: item.quantity }];
                 }).then(() => {
                     this.setState({
                         data,
@@ -84,19 +80,19 @@ class Inventory extends React.Component {
         fb.addInventoryItem(item, 3);
     }
 
-    removeItem(event){
+    removeItem(event) {
         event.preventDefault();
         const item = Number(event.target.id);
         fb.throwAway(item);
     }
 
-    useItem(event){
+    useItem(event) {
         event.preventDefault();
         const item = Number(event.target.id);
         fb.useItem(item);
     }
 
-    tipsRedirect(id){
+    tipsRedirect(id) {
         this.props.history.push(`/${id}/tips`);
     }
 
@@ -123,23 +119,23 @@ class Inventory extends React.Component {
             <hr />
             <ul className="inventory">
                 {loading ? 'Loading..' :
-                    data.map(({ name, expiration, place, id }, index) => {
+                    data.map(({ name, expiration, place, id, quantity }, index) => {
                         return <li key={index} className={'inventoryItem ' + (clicked === index ? 'expandedItem' : '')}
                             id={index}>
                             <section className="header" onClick={this.expand}><h1 id={index}>{name}</h1>
                                 <p>Expire in {expiration}</p>
-                                <FontAwesomeIcon icon={faChevronDown} id={index}/>
-                                <article className="quantity">1x</article>
+                                <FontAwesomeIcon icon={faChevronDown} id={index} />
+                                <article className="quantity">{quantity}x</article>
                                 <article className="place">{place}</article>
                             </section>
                             {clicked === index ?
                                 <section className="expandedSection" id={index}>
                                     <input type="number" placeholder="5" id={index} className="inputQuantity"></input>
-                                    <button type="button" name="subtract" id={index}><FontAwesomeIcon icon={faMinus}/></button>
-                                    <button type="button" name="add"><FontAwesomeIcon icon={faPlus}/></button><br></br><br></br>
+                                    <button type="button" name="subtract" id={index}><FontAwesomeIcon icon={faMinus} /></button>
+                                    <button type="button" name="add"><FontAwesomeIcon icon={faPlus} /></button><br></br><br></br>
 
-                                    <button type="button" name="tips" className="button" onClick={() => this.tipsRedirect(id)}>Tips<FontAwesomeIcon icon={faChevronRight}/></button><br></br>
-                                    <button type="button" name="recipes" className="button">Recipes<FontAwesomeIcon icon={faChevronRight}/></button><br></br>
+                                    <button type="button" name="tips" className="button" onClick={() => this.tipsRedirect(id)}>Tips<FontAwesomeIcon icon={faChevronRight} /></button><br></br>
+                                    <button type="button" name="recipes" className="button">Recipes<FontAwesomeIcon icon={faChevronRight} /></button><br></br>
                                     <button type="button" name="Throw" className="throw" id={index} onClick={this.removeItem}>Throw</button>
                                     <button type="button" name="Use" className="use" id={index} onClick={this.useItem}>Use</button>
                                 </section> : ''}
