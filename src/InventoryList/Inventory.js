@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import * as fb from './../server.js';
 import './Inventory.css';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 function bg() {
    document.getElementsByClassName('.searchbar').style.backgroundColor = "#fff";
