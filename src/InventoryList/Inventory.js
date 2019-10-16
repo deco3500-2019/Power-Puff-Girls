@@ -4,6 +4,7 @@ import React from 'react';
 import * as fb from './../server.js';
 import './Inventory.css';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import Popup from '../Popup/Popup';
 
 class Inventory extends React.Component {
     constructor() {
@@ -93,14 +94,16 @@ class Inventory extends React.Component {
         const item = Number(event.target.id);
         fb.useItem(item);
     }
-
     tipsRedirect(id) {
         this.props.history.push(`/${id}/tips`);
     }
+    incrementQuantity(id){
 
+    }
     render() {
         const { clicked, loading, data } = this.state;
         return (<div>
+            <Popup />
             <button className="scan">Scan</button>
             <input search="text" placeholder="Add item" value={this.state.addItemName}
                 onChange={this.search} name="addItemName" className="searchbar" 
@@ -135,9 +138,9 @@ class Inventory extends React.Component {
                             </section>
                             {clicked === index ?
                                 <section className="expandedSection" id={index}>
-                                    <input type="number" placeholder="5" id={index} className="inputQuantity"></input>
-                                    <button type="button" name="subtract" id={index}><FontAwesomeIcon icon={faMinus} /></button>
-                                    <button type="button" name="add"><FontAwesomeIcon icon={faPlus} /></button><br></br><br></br>
+                                    <input type="number" placeholder={quantity} id={index} className="inputQuantity"></input>
+                                    <button type="button" name="subtract" onClick={()=> fb.decrementQuantity(index)}><FontAwesomeIcon icon={faMinus} /></button>
+                                    <button type="button" name="add" onClick={()=> fb.incrementQuantity(index)}><FontAwesomeIcon icon={faPlus} /></button><br></br><br></br>
 
                                     <button type="button" name="tips" className="button" onClick={() => this.tipsRedirect(id)}>Tips<FontAwesomeIcon icon={faChevronRight} /></button><br></br>
                                     <button type="button" name="recipes" className="button">Recipes<FontAwesomeIcon icon={faChevronRight} /></button><br></br>

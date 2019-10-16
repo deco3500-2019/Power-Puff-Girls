@@ -121,3 +121,21 @@ export function saveTips(text, id, count){
         rating: 0
     })
 }
+export function incrementQuantity(id){
+    const userId = sessionStorage.getItem('user_id');
+
+    database.ref(`Users/${userId}/inventory/${id}/quantity`).once('value').then((count) => {
+        let quantityCount = (count.val() !== 0) ? (count.val()) : (0);
+        database.ref(`Users/${userId}/inventory/${id}`).update({ quantity: quantityCount + 0.5 });
+
+    });
+}
+export function decrementQuantity(id){
+    const userId = sessionStorage.getItem('user_id');
+    
+    database.ref(`Users/${userId}/inventory/${id}/quantity`).once('value').then((count) => {
+        let quantityCount = (count.val() !== 0) ? (count.val()) : (0);
+        database.ref(`Users/${userId}/inventory/${id}`).update({ quantity: quantityCount - 0.5 });
+
+    });
+}

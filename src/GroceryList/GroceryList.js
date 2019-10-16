@@ -30,11 +30,10 @@ class GroceryList extends React.Component {
         const { groceryList, loading } = this.state;
         return (
             <div>
-                <h1>Grocery List</h1>
                 {loading ? 'Loading...' :
-                    <ul>
+                    <ul className="groceryItem">
                         {groceryList.map(item => {
-                            return <li key={item.id}>{item.name}, quantity: {item.quantity}</li>
+                            return  <li key={item.id}>{item.name}, quantity: {item.quantity}</li>
                         })}
                     </ul>}
             </div>
