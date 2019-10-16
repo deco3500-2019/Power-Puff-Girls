@@ -4,6 +4,10 @@ import React from 'react';
 import * as fb from './../server.js';
 import './Inventory.css';
 
+function bg() {
+   document.getElementsByClassName('.searchbar').style.backgroundColor = "#fff";
+}
+
 class Inventory extends React.Component {
     constructor() {
         super();
@@ -99,21 +103,21 @@ class Inventory extends React.Component {
     render() {
         const { clicked, loading, data } = this.state;
         return (<div>
-            <a href="#" className="scan">Scan</a>
+            <button className="scan">Scan</button>
             <input search="text" placeholder="Add item" value={this.state.addItemName}
-                onChange={this.search} name="addItemName" className="searchbar" />
-            <a href="#" className="select">Select</a>
+                onChange={this.search} name="addItemName" className="searchbar" onClick={bg} />
+            <button className="select">Select</button>
             <div>{/* Search results section */}
                 {this.state.searchResults.map((result, index) => {
-                    return <li key={index} onClick={this.addItem} id={result.id} className="result">{result.name}</li>
+                    return <li key={index} onClick={this.addItem} id={result.id} className="result"><FontAwesomeIcon icon={faSearch}/> {result.name}</li>
                 })}
             </div>
             <nav className="navbar">
                 <ul>
-                    <li><a href="#" className="activelink">All</a></li>
-                    <li><a href="#">Fridge</a></li>
-                    <li><a href="#">Freezer</a></li>
-                    <li><a href="#">Dry Pantry</a></li>
+                    <li className="activelink" onClick={fb.getAllInventory}>All</li>
+                    <li>Fridge</li>
+                    <li>Freezer</li>
+                    <li>Dry Pantry</li>
                 </ul>
             </nav>
             <hr />
