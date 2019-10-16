@@ -3,6 +3,9 @@ import './Login.css';
 import { Link } from 'react-router-dom';
 import App from '../App';
 import * as fb from './../server.js'
+import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons';
+import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class Login extends React.Component {
     constructor() {
@@ -45,20 +48,27 @@ class Login extends React.Component {
             return <App />
         }
         return (
-            <form className="body">
-                <h1>Login</h1>
-                <div>{this.state.responseMessage}</div>
-                <div className="inputBox">
-                    <input type="text" name='username' placeholder="Username" className="loginInput"
-                        value={username} onChange={this.type} />
-                </div>
-                <div>
-                    <input type="password" name='password' placeholder="Password" className="loginInput"
-                        value={password} onChange={this.type} />
-                </div>
-                <button type="submit" onClick={this.login} className="menuItem">Log In</button>
-                <Link to="/login" className="menuItem">Sign up</Link>
-            </form>
+            <section className="loginPage">
+                
+                    <h1>Food Saver</h1>
+                    <button type="button" className="fbButton"><FontAwesomeIcon icon={faFacebookSquare} /> Sign in with Facebook</button>
+                    <button type="button" className="emailButton"><FontAwesomeIcon icon={faEnvelope} /> Sign in with Email</button>
+                    <form>
+                        <div>{this.state.responseMessage}</div>
+                    <div className="inputBox">
+                        <input type="text" name='username' placeholder="Username" className="loginInput"
+                            value={username} onChange={this.type} />
+                    </div>
+                    <div>
+                        <input type="password" name='password' placeholder="Password" className="loginInput"
+                            value={password} onChange={this.type} />
+                    </div>
+                    <button type="submit" onClick={this.login}>Log In</button>
+                    </form>
+                    <h2>Already have an account?</h2>
+                    <Link to="/login" className="menuItem">Log in here</Link>
+                
+            </section>
         )
     }
 }
