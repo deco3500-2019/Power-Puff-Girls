@@ -103,7 +103,7 @@ class Inventory extends React.Component {
     render() {
         const { clicked, loading, data } = this.state;
         return (<div>
-            <Popup />
+           
             <button className="scan">Scan</button>
             <input search="text" placeholder="Add item" value={this.state.addItemName}
                 onChange={this.search} name="addItemName" className="searchbar" 
