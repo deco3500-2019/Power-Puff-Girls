@@ -108,3 +108,16 @@ export function convertToArray(list) {
     })
     return newList;
 }
+
+export function getTips(id){
+    return database.ref(`inventory/${id}/tips`).on('value', (tips) => {
+        return tips.val();
+    })
+}
+
+export function saveTips(text, id, count){
+    return database.ref(`inventory/${id}/tips/${count}`).set({
+        text,
+        rating: 0
+    })
+}

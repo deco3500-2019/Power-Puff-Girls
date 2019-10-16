@@ -100,6 +100,10 @@ class Inventory extends React.Component {
         fb.useItem(item);
     }
 
+    tipsRedirect(id){
+        this.props.history.push(`/${id}/tips`);
+    }
+
     render() {
         const { clicked, loading, data } = this.state;
         return (<div>
@@ -125,20 +129,20 @@ class Inventory extends React.Component {
                 {loading ? 'Loading..' :
                     data.map(({ name, expiration, place, id }, index) => {
                         return <li key={index} className={'inventoryItem ' + (clicked === index ? 'expandedItem' : '')}
-                            id={index} onClick={this.expand}>
-                            <section className="header"><h1 id={index}>{name}</h1>
+                            id={index}>
+                            <section className="header" onClick={this.expand}><h1 id={index}>{name}</h1>
                                 <p>Expire in {expiration}</p>
                                 <FontAwesomeIcon icon={faChevronDown} id={index}/>
                                 <article className="quantity">1x</article>
                                 <article className="place">{place}</article>
                             </section>
-                            {clicked === index ? //See if this can be converted to e.g. id to remove the collapse/throw/expand problem
+                            {clicked === index ?
                                 <section className="expandedSection" id={index}>
                                     <input type="number" placeholder="5" id={index} className="inputQuantity"></input>
                                     <button type="button" name="subtract" id={index}><FontAwesomeIcon icon={faMinus}/></button>
                                     <button type="button" name="add"><FontAwesomeIcon icon={faPlus}/></button><br></br><br></br>
 
-                                    <button type="button" name="tips" className="button">Tips<FontAwesomeIcon icon={faChevronRight}/></button><br></br>
+                                    <button type="button" name="tips" className="button" onClick={() => this.tipsRedirect(id)}>Tips<FontAwesomeIcon icon={faChevronRight}/></button><br></br>
                                     <button type="button" name="recipes" className="button">Recipes<FontAwesomeIcon icon={faChevronRight}/></button><br></br>
                                     <button type="button" name="Throw" className="throw" id={index} onClick={this.removeItem}>Throw</button>
                                     <button type="button" name="Use" className="use" id={index} onClick={this.useItem}>Use</button>
