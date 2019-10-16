@@ -14,7 +14,8 @@ class Inventory extends React.Component {
             clicked: -1,
             loading: true,
             allInventory: [],
-            data: []
+            data: [],
+            place: "all"
         }
         this.search = this.search.bind(this);
         this.expand = this.expand.bind(this);
@@ -113,17 +114,18 @@ class Inventory extends React.Component {
             </div>
             <nav className="navbar">
                 <ul>
-                    <li className="activelink" onClick={fb.getAllInventory}>All</li>
-                    <li>Fridge</li>
-                    <li>Freezer</li>
-                    <li>Dry Pantry</li>
+                    <li className={(this.state.place === "all" ? 'activelink' : '')} onClick={() => this.setState({place:"all"})}>All</li>
+                    <li className={(this.state.place === "fridge" ? 'activelink' : '')} onClick={() => this.setState({place:"fridge"})}>Fridge</li>
+                    <li className={(this.state.place === "freezer" ? 'activelink' : '')}onClick={() => this.setState({place:"freezer"})}>Freezer</li>
+                    <li className={(this.state.place === "pantry" ? 'activelink' : '')} onClick={() => this.setState({place:"pantry"})}>Dry Pantry</li>
                 </ul>
             </nav>
             <hr />
             <ul className="inventory">
                 {loading ? 'Loading..' :
                     data.map(({ name, expiration, place, id, quantity }, index) => {
-                        return <li key={index} className={'inventoryItem ' + (clicked === index ? 'expandedItem' : '')}
+                        return <li key={index} className={('inventoryItem ' + (clicked === index ? 'expandedItem' : '')) + 
+                        (this.state.place !== place && this.state.place !== "all" ? 'hide'  : '')}
                             id={index}>
                             <section className="header" onClick={this.expand}><h1 id={index}>{name}</h1>
                                 <p>Expire in {expiration}</p>
