@@ -87,9 +87,22 @@ body{
     border-radius: 7px;
     background: rgba(255, 255, 255, 0.7);
     border: none;
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 17px;
+}
+.searchbar::before{
+    font-family: FontAwesome;
+    content: "hello";
 }
 .searchbar::placeholder{
     padding-left: 10px;
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.36);
 }
 hr{
     color: #fff;
@@ -121,12 +134,24 @@ hr{
     border: none;
     text-decoration: none;
     margin-right: 10px;
+    background: none !important;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    padding: 0px;
 }
 .select{
     color: #FFC971;
+    margin-left: 10px;
     border: none;
     text-decoration: none;
-    margin-left: 10px;
+    background: none !important;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    padding: 0px;
 }
 .fa-chevron-down{
     position: absolute;
@@ -180,6 +205,12 @@ hr{
 .result{
     background-color: #fff;
     list-style: none;
+    text-align: left;
+    width: 240px;
+    display: flex;
+    padding: 5px;
+    margin: 0 auto;
+
 }
 .result:hover{
     cursor: pointer;

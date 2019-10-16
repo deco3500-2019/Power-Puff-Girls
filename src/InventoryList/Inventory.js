@@ -8,10 +8,6 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { faMinus } from '@fortawesome/free-solid-svg-icons';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
-function bg() {
-   document.getElementsByClassName('.searchbar').style.backgroundColor = "#fff";
-}
-
 class Inventory extends React.Component {
     constructor() {
         super();
@@ -46,7 +42,7 @@ class Inventory extends React.Component {
             })
         }))
     }
-
+    
     search(event) {
         const value = event.target.value;
         if (this.state.allInventory.length === 0) {
@@ -109,7 +105,9 @@ class Inventory extends React.Component {
         return (<div>
             <button className="scan">Scan</button>
             <input search="text" placeholder="Add item" value={this.state.addItemName}
-                onChange={this.search} name="addItemName" className="searchbar" onClick={bg} />
+                onChange={this.search} name="addItemName" className="searchbar" 
+                onClick={(event) => event.target.style.background = "#FFF"}  
+                onBlur={(event) => event.target.style.background = "rgba(255, 255, 255, 0.7)"} />
             <button className="select">Select</button>
             <div>{/* Search results section */}
                 {this.state.searchResults.map((result, index) => {
