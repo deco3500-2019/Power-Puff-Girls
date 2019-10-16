@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 import { faArchive } from '@fortawesome/free-solid-svg-icons'
+import Tips from './InventoryList/Tips/Tips';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/inventory" component={Inventory} />
             <Route path="/profile" component={Profile} />
             <Route path="/groceryList" component={GroceryList} />
+            <Route path="/:itemId/tips" component={Tips} />
             <Route path="/" render={() => (<Redirect to="/inventory" />)} />
           </Switch>
           <div className="menu">

@@ -1,0 +1,13 @@
+.tipsList{
+    margin: 0;
+    padding: 0;
+    background: transparent;
+}
+.tipsItem{
+    list-style-type: none;
+    text-align: left;
+    margin: 0;
+    background-color: #fff;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
