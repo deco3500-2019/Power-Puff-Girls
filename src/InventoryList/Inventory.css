@@ -9,6 +9,8 @@ body{
 .navbar ul{
     padding: 0px;
     margin-bottom: 0px;
+    display: flex;
+    justify-content: space-around; 
 }
 .navbar li{
     list-style: none;
@@ -18,7 +20,8 @@ body{
     font-weight: normal;
     font-size: 15px;
     line-height: 12px;
-    
+    color: #fff;
+    text-decoration: none;  
 }
 .navbar li a{
     color: #fff;
@@ -84,6 +87,9 @@ body{
     border-radius: 7px;
     background: rgba(255, 255, 255, 0.7);
     border: none;
+}
+.searchbar::placeholder{
+    padding-left: 10px;
 }
 hr{
     color: #fff;
