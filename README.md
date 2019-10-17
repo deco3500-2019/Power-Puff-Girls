@@ -34,7 +34,7 @@ You can test the prototype directly from the link and use the app from the websi
 https://s4540545-ppg.uqcloud.net/profile
 
 Instructions:  
-Username: power
+Username: power  
 Password: puff
 
 ## Link to Working Prototype, Promotional Material, and Documentation  
