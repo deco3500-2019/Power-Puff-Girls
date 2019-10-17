@@ -27,9 +27,14 @@ Before use the prototype from your phone please follow the instruction below.
   2. Create an account 
   3. Turn on the Wifi on your phone and select a Frame or Component on the canvas. 
 
-Other the option:  
+Other option:  
 You can test the prototype directly from the link and use the app from the website. 
 
 ## Link to High Fidelity Prototype
+https://s4540545-ppg.uqcloud.net/profile
+
+Instructions
+Username: power
+Password: puff
 
 ## Link to Working Prototype, Promotional Material, and Documentation  
