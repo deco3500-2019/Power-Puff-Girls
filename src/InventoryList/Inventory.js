@@ -16,13 +16,15 @@ class Inventory extends React.Component {
             loading: true,
             allInventory: [],
             data: [],
-            place: "all"
+            place: "all",
+            addItemRequest: []
         }
         this.search = this.search.bind(this);
         this.expand = this.expand.bind(this);
         this.addItem = this.addItem.bind(this);
         this.removeItem = this.removeItem.bind(this);
         this.useItem = this.useItem.bind(this);
+        this.cancelPopup = this.cancelPopup.bind(this);
 
         const userId = sessionStorage.getItem('user_id');
         fb.database.ref(`Users/${userId}`).on('value', ((item) => {
@@ -41,7 +43,7 @@ class Inventory extends React.Component {
             })
         }))
     }
-    
+
     search(event) {
         const value = event.target.value;
         if (this.state.allInventory.length === 0) {
@@ -71,16 +73,25 @@ class Inventory extends React.Component {
     }
 
     expand(event) {
-        const id = Number(event.target.id);
-        const { clicked } = this.state;
+        let id = event.target.id;
+        if(!(id === '' || id === undefined) ){
+            id = Number(id);
+            const { clicked } = this.state;
+            this.setState({
+                clicked: clicked === id ? -1 : id
+            })
+        }
+    }
+    addItem(id, number) {
+        fb.addInventoryItem(id, number);
         this.setState({
-            clicked: clicked === id ? -1 : id
+            addItemRequest: []
         })
     }
-    addItem(event) {
-        event.preventDefault();
-        const item = Number(event.target.id);
-        fb.addInventoryItem(item, 3);
+    addItemRequest(item) {
+        this.setState({
+            addItemRequest: item
+        })
     }
 
     removeItem(event) {
@@ -97,38 +108,40 @@ class Inventory extends React.Component {
     tipsRedirect(id) {
         this.props.history.push(`/${id}/tips`);
     }
-    incrementQuantity(id){
-
+    cancelPopup() {
+        this.setState({
+            addItemRequest: []
+        })
     }
     render() {
-        const { clicked, loading, data } = this.state;
+        const { clicked, loading, data, addItemRequest } = this.state;
         return (<div>
-           
+            {addItemRequest.length !== 0 ? <Popup addFunc={this.addItem} cancelFunc={this.cancelPopup} item={addItemRequest} /> : null}
             <button className="scan">Scan</button>
             <input search="text" placeholder="Add item" value={this.state.addItemName}
-                onChange={this.search} name="addItemName" className="searchbar" 
-                onClick={(event) => event.target.style.background = "#FFF"}  
+                onChange={this.search} name="addItemName" className="searchbar"
+                onClick={(event) => event.target.style.background = "#FFF"}
                 onBlur={(event) => event.target.style.background = "rgba(255, 255, 255, 0.7)"} />
             <button className="select">Select</button>
             <div>{/* Search results section */}
                 {this.state.searchResults.map((result, index) => {
-                    return <li key={index} onClick={this.addItem} id={result.id} className="result"><FontAwesomeIcon icon={faSearch}/> {result.name}</li>
+                    return <li key={index} onClick={() => this.addItemRequest(result)} id={result.id} className="result"><FontAwesomeIcon icon={faSearch} /> {result.name}</li>
                 })}
             </div>
             <nav className="navbar">
                 <ul>
-                    <li className={(this.state.place === "all" ? 'activelink' : '')} onClick={() => this.setState({place:"all"})}>All</li>
-                    <li className={(this.state.place === "fridge" ? 'activelink' : '')} onClick={() => this.setState({place:"fridge"})}>Fridge</li>
-                    <li className={(this.state.place === "freezer" ? 'activelink' : '')}onClick={() => this.setState({place:"freezer"})}>Freezer</li>
-                    <li className={(this.state.place === "pantry" ? 'activelink' : '')} onClick={() => this.setState({place:"pantry"})}>Dry Pantry</li>
+                    <li className={(this.state.place === "all" ? 'activelink' : '')} onClick={() => this.setState({ place: "all" })}>All</li>
+                    <li className={(this.state.place === "fridge" ? 'activelink' : '')} onClick={() => this.setState({ place: "fridge" })}>Fridge</li>
+                    <li className={(this.state.place === "freezer" ? 'activelink' : '')} onClick={() => this.setState({ place: "freezer" })}>Freezer</li>
+                    <li className={(this.state.place === "pantry" ? 'activelink' : '')} onClick={() => this.setState({ place: "pantry" })}>Dry Pantry</li>
                 </ul>
             </nav>
             <hr />
             <ul className="inventory">
                 {loading ? 'Loading..' :
                     data.map(({ name, expiration, place, id, quantity }, index) => {
-                        return <li key={index} className={('inventoryItem ' + (clicked === index ? 'expandedItem' : '')) + 
-                        (this.state.place !== place && this.state.place !== "all" ? 'hide'  : '')}
+                        return <li key={index} className={('inventoryItem ' + (clicked === index ? 'expandedItem' : '')) +
+                            (this.state.place !== place && this.state.place !== "all" ? 'hide' : '')}
                             id={index}>
                             <section className="header" onClick={this.expand}><h1 id={index}>{name}</h1>
                                 <p>Expire in {expiration}</p>
@@ -139,8 +152,8 @@ class Inventory extends React.Component {
                             {clicked === index ?
                                 <section className="expandedSection" id={index}>
                                     <input type="number" placeholder={quantity} id={index} className="inputQuantity"></input>
-                                    <button type="button" name="subtract" onClick={()=> fb.decrementQuantity(index)}><FontAwesomeIcon icon={faMinus} /></button>
-                                    <button type="button" name="add" onClick={()=> fb.incrementQuantity(index)}><FontAwesomeIcon icon={faPlus} /></button><br></br><br></br>
+                                    <button type="button" name="subtract" onClick={() => fb.decrementQuantity(index)}><FontAwesomeIcon icon={faMinus} /></button>
+                                    <button type="button" name="add" onClick={() => fb.incrementQuantity(index)}><FontAwesomeIcon icon={faPlus} /></button><br></br><br></br>
 
                                     <button type="button" name="tips" className="button" onClick={() => this.tipsRedirect(id)}>Tips<FontAwesomeIcon icon={faChevronRight} /></button><br></br>
                                     <button type="button" name="recipes" className="button">Recipes<FontAwesomeIcon icon={faChevronRight} /></button><br></br>

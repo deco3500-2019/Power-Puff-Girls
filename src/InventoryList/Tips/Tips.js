@@ -12,9 +12,17 @@ class Tips extends React.Component {
         })
         const id = props.match.params.itemId;
         fb.database.ref(`inventory/${id}/tips`).on('value', (tips) => {
-            this.setState({
-                tips: tips.val(),
-                loading: false
+            const tipsList = tips.val();
+            let newList = [];
+            tipsList.forEach(tip => {
+                fb.database.ref(`Users/${tip.userId}/username`).once('value').then(user => {
+                    newList = [...newList, { ...tip, userName: user.val() }];
+                }).then(() => {
+                    this.setState({
+                        tips: newList,
+                        loading: false
+                    })
+                })
             })
         })
         this.submitComment = this.submitComment.bind(this);
@@ -47,11 +55,15 @@ class Tips extends React.Component {
                 {loading ? 'Loading...' :
                     <div>
 
-                        <ul className="tipsList">
+                        <div className="tipsList">
                             {tips.map((tip, index) => {
-                                return <li className="tipsItem" key={index}>{tip.text}, rating: {tip.rating}</li>
+                                return <div key={index} className="tipsItem">
+                                    {tip.text}, rating: {tip.rating}, userName: {tip.userName}<br/>
+                                    <button type="button" onClick={() => fb.changeRating({itemId, number: 1, commentId: index})}>Thumbs up</button>
+                                    <button type="button"onClick={() => fb.changeRating({itemId, number: -1, commentId: index})}>Thumbs down</button>
+                                </div>
                             })}
-                        </ul>
+                        </div>
 
                         <input type="text" placeholder="Write a tip here.." value={comment} onChange={this.type} />
                         <button type="button" onClick={this.submitComment}>Submit comment</button>

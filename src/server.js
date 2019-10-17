@@ -139,3 +139,11 @@ export function decrementQuantity(id){
 
     });
 }
+
+export function changeRating(data){
+    const { itemId, number, commentId } = data;
+    database.ref(`inventory/${itemId}/tips/${commentId}/rating`).once('value').then((count) => {
+        let rating = (count.val() !== 0) ? (count.val()) : (0);
+        database.ref(`inventory/${itemId}/tips/${commentId}`).update({ rating: (rating + number) });
+    })
+}
