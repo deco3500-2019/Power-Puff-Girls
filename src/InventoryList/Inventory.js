@@ -85,7 +85,9 @@ class Inventory extends React.Component {
     addItem(id, number) {
         fb.addInventoryItem(id, number);
         this.setState({
-            addItemRequest: []
+            addItemRequest: [],
+            addItemName: '',
+            searchResults: []
         })
     }
     addItemRequest(item) {

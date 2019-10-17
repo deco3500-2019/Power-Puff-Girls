@@ -62,7 +62,7 @@ export function throwAway(id) {
             return database.ref(`Users/${userId}/inventory/${id}`).remove().then(() => {
                 database.ref(`Users/${userId}/inventory/`).once('value').then((newInventoryData) => {
                     //Going through all data to update the index
-                    let list = []; 
+                    let list = [];
                     newInventoryData.val().forEach(newData => {
                         //To ignore the missing indexes
                         list = [...list, newData];
@@ -86,7 +86,7 @@ export function useItem(id) {
             return database.ref(`Users/${userId}/inventory/${id}`).remove().then(() => {
                 database.ref(`Users/${userId}/inventory/`).once('value').then((newInventoryData) => {
                     //Going through all data to update the index
-                    let list = []; 
+                    let list = [];
                     newInventoryData.val().forEach(newData => {
                         //To ignore the missing indexes
                         list = [...list, newData];
@@ -109,19 +109,19 @@ export function convertToArray(list) {
     return newList;
 }
 
-export function getTips(id){
+export function getTips(id) {
     return database.ref(`inventory/${id}/tips`).on('value', (tips) => {
         return tips.val();
     })
 }
 
-export function saveTips(text, id, count){
+export function saveTips(text, id, count) {
     return database.ref(`inventory/${id}/tips/${count}`).set({
         text,
         rating: 0
     })
 }
-export function incrementQuantity(id){
+export function incrementQuantity(id) {
     const userId = sessionStorage.getItem('user_id');
 
     database.ref(`Users/${userId}/inventory/${id}/quantity`).once('value').then((count) => {
@@ -130,9 +130,9 @@ export function incrementQuantity(id){
 
     });
 }
-export function decrementQuantity(id){
+export function decrementQuantity(id) {
     const userId = sessionStorage.getItem('user_id');
-    
+
     database.ref(`Users/${userId}/inventory/${id}/quantity`).once('value').then((count) => {
         let quantityCount = (count.val() !== 0) ? (count.val()) : (0);
         database.ref(`Users/${userId}/inventory/${id}`).update({ quantity: quantityCount - 0.5 });
@@ -140,10 +140,32 @@ export function decrementQuantity(id){
     });
 }
 
-export function changeRating(data){
+export function changeRating(data) {
     const { itemId, number, commentId } = data;
     database.ref(`inventory/${itemId}/tips/${commentId}/rating`).once('value').then((count) => {
         let rating = (count.val() !== 0) ? (count.val()) : (0);
         database.ref(`inventory/${itemId}/tips/${commentId}`).update({ rating: (rating + number) });
     })
+}
+
+export function addGroceryItem(id, quantity) {
+    const userId = sessionStorage.getItem('user_id');
+    let count = 0;
+    return database.ref(`Users/${userId}/groceryList`).once('value')
+        .then((item) => {
+            const value = item.val();
+            let alreadyInDatabase = false;
+            value.forEach((item) => {
+                if (item.id === id) {
+                    alreadyInDatabase = true
+                }
+            })
+            count = value.length
+            if (!alreadyInDatabase) {
+                return database.ref(`Users/${userId}/groceryList/${count}`).set({
+                    id,
+                    quantity
+                })
+            }
+        })
 }

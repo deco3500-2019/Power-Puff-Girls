@@ -1,0 +1,12 @@
+.logOutButton{
+    background-color: #EE6352;
+    color: #fff;
+    padding: 10px 30px 10px 30px;
+    border-radius: 8px;
+    border: none;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    width: 80%;
+}
