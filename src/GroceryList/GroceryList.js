@@ -31,11 +31,14 @@ class GroceryList extends React.Component {
         return (
             <div>
                 {loading ? 'Loading...' :
-                    <ul className="groceryItem">
+                    <ul className="groceryList">
                         {groceryList.map(item => {
-                            return  <li key={item.id}>{item.name}, quantity: {item.quantity}</li>
+                            return <li><input type="checkbox"key={item.id} className="groceyItem" value={item.name}/>{item.name} <div className="itemQuantity">{item.quantity}x</div></li>
+                            
                         })}
                     </ul>}
+                    <button type="button" name="Purchase" className="purchase">Purchase</button>
+                    <button type="button" name="Delete" className="delete">Delete</button>
             </div>
         )
     }
