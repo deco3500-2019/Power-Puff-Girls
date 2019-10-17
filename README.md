@@ -33,7 +33,7 @@ You can test the prototype directly from the link and use the app from the websi
 ## Link to High Fidelity Prototype
 https://s4540545-ppg.uqcloud.net/profile
 
-Instructions:
+Instructions:  
 Username: power
 Password: puff
 
