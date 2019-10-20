@@ -18,9 +18,19 @@ class GroceryList extends React.Component {
         })
 
         const userId = sessionStorage.getItem('user_id');
-        fb.database.ref(`Users/${userId}/groceryList`).on('value', ((list) => {
+        this.groceryDb = fb.database.ref(`Users/${userId}/groceryList`);
+        
+        this.search = this.search.bind(this);
+        this.addItem = this.addItem.bind(this);
+        this.cancelPopup = this.cancelPopup.bind(this);
+        this.addItemRequest = this.addItemRequest.bind(this);
+    }
+
+    componentDidMount(){
+        this.groceryDb.on('value', ((list) => {
             let groceryList = list.val();
             let data = [];
+            groceryList = fb.convertToArray(groceryList);
             groceryList.forEach((item) => {
                 fb.database.ref(`inventory/${item.id}`).once('value').then((groceryItem) => {
                     data = [...data, { ...groceryItem.val(), quantity: item.quantity }];
@@ -32,11 +42,12 @@ class GroceryList extends React.Component {
                 })
             })
         }))
-        this.search = this.search.bind(this);
-        this.addItem = this.addItem.bind(this);
-        this.cancelPopup = this.cancelPopup.bind(this);
-        this.addItemRequest = this.addItemRequest.bind(this);
     }
+
+    componentWillUnmount(){
+        this.groceryDb.off();
+    }
+
     search(event) {
         const value = event.target.value;
         if (this.state.allInventory.length === 0) {
