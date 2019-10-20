@@ -24,7 +24,6 @@
 .tips img{
     width: 50px;
     height: 50px;
-    background-image: url('http://mjedesign.net/uq/images/user.jpg');
     background-size: contain;
     border-radius: 100px;
     margin: 0px 10px;
@@ -33,6 +32,11 @@
     position: absolute;
     left: 10px;
     margin-top: 50px;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-weight: normal;
+    font-size: 14px;
+
 }
 .tipsTitle{
     font-family: 'Open Sans', sans-serif;

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Lobster&display=swap');
 body{
     background-image: url(http://mjedesign.net/uq/images/gradient.png);
     background-size: cover;
@@ -21,10 +22,10 @@ body{
 .loginPage h1{
     position: absolute;
     margin-top: 130px;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Lobster', cursive;
     font-style: normal;
     font-weight: 600;
-    font-size: 36px;
+    font-size: 45px;
     line-height: 49px;
     color: #FFFFFF;
 }

@@ -62,7 +62,7 @@ class Tips extends React.Component {
                         <div className="tipsList">
                             {tips.map((tip, index) => {
                                 return <section className="tips">
-                                    <img src=""></img>
+                                    <img src="http://mjedesign.net/uq/images/user.jpg"></img>
                                     <div className="userName">{tip.userName}</div>
                                     <div key={index} className="tipsItem">
                                     {tip.text}
