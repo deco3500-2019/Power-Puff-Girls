@@ -10,3 +10,9 @@
     font-size: 14px;
     width: 80%;
 }
+.pieChart{
+    padding: 10px;
+    background-color: #fff;
+    margin: 10px;
+    border-radius: 4px;
+}

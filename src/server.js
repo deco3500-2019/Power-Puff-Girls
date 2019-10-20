@@ -174,7 +174,7 @@ export function addGroceryItem(id, quantity) {
 export async function purchaseItem(itemList=[]){
     while(itemList.length > 0){
         let item = itemList.pop();
-        const a = await addInventoryItem(item.id, item.quantity);
+        await addInventoryItem(item.id, item.quantity);
     }
      
     
@@ -188,7 +188,8 @@ export async function deleteItem(id){
             database.ref(`Users/${userId}/groceryList/`).once('value').then((newGroceryListData) => {
                 //Going through all data to update the index
                 let list = [];
-                newGroceryListData.val().forEach(newData => {
+                newGroceryListData = convertToArray(newGroceryListData.val());
+                newGroceryListData.forEach(newData => {
                     //To ignore the missing indexes
                     list = [...list, newData];
                 })
