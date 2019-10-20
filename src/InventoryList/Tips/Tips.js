@@ -11,15 +11,20 @@ class Tips extends React.Component {
         this.state = ({
             tips: [],
             loading: true,
-            comment: ''
+            comment: '',
+            itemName: ''
         })
         const id = props.match.params.itemId;
+        fb.database.ref(`inventory/${id}/name`).once('value').then(inventoryName => {
+            this.setState({ itemName: inventoryName.val()});
+        })
         fb.database.ref(`inventory/${id}/tips`).on('value', (tips) => {
             const tipsList = tips.val();
             let newList = [];
             tipsList.forEach(tip => {
-                fb.database.ref(`Users/${tip.userId}/username`).once('value').then(user => {
-                    newList = [...newList, { ...tip, userName: user.val() }];
+                fb.database.ref(`Users/${tip.userId}`).once('value').then(user => {
+                    const userItem = user.val();
+                    newList = [...newList, { ...tip, userName: userItem.username, profilepic: userItem.profilepic }];
                 }).then(() => {
                     this.setState({
                         tips: newList,
@@ -50,19 +55,20 @@ class Tips extends React.Component {
     }
     render() {
         const { itemId } = this.props.match.params;
-        const { tips, loading, comment } = this.state;
+        const { tips, loading, comment, itemName } = this.state;
         return (
             <div>
                 <button type="button" onClick={this.goBack}><FontAwesomeIcon icon={faChevronLeft} /></button>
                 <h1 className="tipsTitle">Tips</h1>
-                <h2 className="tipsName"> {itemId}</h2>
+                <h2 className="tipsName"> {itemName}</h2>
                 {loading ? 'Loading...' :
                     <div>
 
                         <div className="tipsList">
                             {tips.map((tip, index) => {
                                 return <section className="tips">
-                                    <img src="http://mjedesign.net/uq/images/user.jpg" alt="Profile Picture"></img>
+                                    {/* http://mjedesign.net/uq/images/user.jpg */}
+                                    <img src={tip.profilepic} alt="Profile Picture"></img>
                                     <div className="userName">{tip.userName}</div>
                                     <div key={index} className="tipsItem">
                                     {tip.text}

@@ -33,7 +33,7 @@ export function getAllInventory() {
 export async function addInventoryItem(id, quantity) {
     const userId = sessionStorage.getItem('user_id');
     let count = 0;
-    
+
     return database.ref(`Users/${userId}/inventory`).once('value')
         .then((item) => {
             const value = item.val();
@@ -44,7 +44,7 @@ export async function addInventoryItem(id, quantity) {
                 }
             })
             count = value.length;
-            console.log(id,alreadyInDatabase,count)
+            console.log(id, alreadyInDatabase, count)
             if (!alreadyInDatabase) {
                 return database.ref(`Users/${userId}/inventory/${count}`).set({
                     id,
@@ -118,9 +118,11 @@ export function getTips(id) {
 }
 
 export function saveTips(text, id, count) {
+    const userId = sessionStorage.getItem('user_id');
     return database.ref(`inventory/${id}/tips/${count}`).set({
         text,
-        rating: 0
+        rating: 0,
+        userId
     })
 }
 export function incrementQuantity(id) {
@@ -171,18 +173,16 @@ export function addGroceryItem(id, quantity) {
             }
         })
 }
-export async function purchaseItem(itemList=[]){
-    while(itemList.length > 0){
+export async function purchaseItem(itemList = []) {
+    while (itemList.length > 0) {
         let item = itemList.pop();
         const a = await addInventoryItem(item.id, item.quantity);
     }
-     
-    
-    
+
 }
-export async function deleteItem(id){
+
+export async function deleteItem(id) {
     const userId = sessionStorage.getItem('user_id');
-    console.log("deleting", id);
     return database.ref(`Users/${userId}/groceryList/`).once('value').then(() => {
         return database.ref(`Users/${userId}/groceryList/${id}`).remove().then(() => {
             database.ref(`Users/${userId}/groceryList/`).once('value').then((newGroceryListData) => {
