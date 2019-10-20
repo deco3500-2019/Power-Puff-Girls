@@ -30,10 +30,11 @@ export function getAllInventory() {
     })
 }
 
-export function addInventoryItem(id, quantity) {
+export async function addInventoryItem(id, quantity) {
     const userId = sessionStorage.getItem('user_id');
     let count = 0;
-    database.ref(`Users/${userId}/inventory`).once('value')
+    
+    return database.ref(`Users/${userId}/inventory`).once('value')
         .then((item) => {
             const value = item.val();
             let alreadyInDatabase = false;
@@ -42,7 +43,8 @@ export function addInventoryItem(id, quantity) {
                     alreadyInDatabase = true
                 }
             })
-            count = value.length
+            count = value.length;
+            console.log(id,alreadyInDatabase,count)
             if (!alreadyInDatabase) {
                 return database.ref(`Users/${userId}/inventory/${count}`).set({
                     id,
@@ -51,10 +53,10 @@ export function addInventoryItem(id, quantity) {
             }
         })
 }
-export function throwAway(id) {
+export function throwItem(id) {
     const userId = sessionStorage.getItem('user_id');
 
-    database.ref(`Users/${userId}/thrown`).once('value').then((count) => {
+    return database.ref(`Users/${userId}/thrown`).once('value').then((count) => {
         let thrownCount = (count.val() !== 0) ? (count.val()) : (0);
         database.ref(`Users/${userId}`).update({ thrown: thrownCount + 1 });
 
@@ -78,7 +80,7 @@ export function throwAway(id) {
 export function useItem(id) {
     const userId = sessionStorage.getItem('user_id');
 
-    database.ref(`Users/${userId}/used`).once('value').then((count) => {
+    return database.ref(`Users/${userId}/used`).once('value').then((count) => {
         let usedCount = (count.val() !== 0) ? (count.val()) : (0);
         database.ref(`Users/${userId}`).update({ used: usedCount + 1 });
 
@@ -168,4 +170,32 @@ export function addGroceryItem(id, quantity) {
                 })
             }
         })
+}
+export async function purchaseItem(itemList=[]){
+    while(itemList.length > 0){
+        let item = itemList.pop();
+        const a = await addInventoryItem(item.id, item.quantity);
+    }
+     
+    
+    
+}
+export async function deleteItem(id){
+    const userId = sessionStorage.getItem('user_id');
+    console.log("deleting", id);
+    return database.ref(`Users/${userId}/groceryList/`).once('value').then(() => {
+        return database.ref(`Users/${userId}/groceryList/${id}`).remove().then(() => {
+            database.ref(`Users/${userId}/groceryList/`).once('value').then((newGroceryListData) => {
+                //Going through all data to update the index
+                let list = [];
+                newGroceryListData.val().forEach(newData => {
+                    //To ignore the missing indexes
+                    list = [...list, newData];
+                })
+                database.ref(`Users/${userId}/groceryList`).set(
+                    list //Update the database with correct indexes
+                )
+            });
+        });
+    });
 }

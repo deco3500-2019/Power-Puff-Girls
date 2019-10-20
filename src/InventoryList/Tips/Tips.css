@@ -10,4 +10,82 @@
     background-color: #fff;
     margin-bottom: 10px;
     border-radius: 4px;
+    width: 273px;
+    padding: 10px;
+    border-bottom: 2px solid #FFC971;
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+}
+.tips{
+    display: flex;
+}
+.tips img{
+    width: 50px;
+    height: 50px;
+    background-image: url('http://mjedesign.net/uq/images/user.jpg');
+    background-size: contain;
+    border-radius: 100px;
+    margin: 0px 10px;
+}
+.userName{
+    position: absolute;
+    left: 10px;
+    margin-top: 50px;
+}
+.tipsTitle{
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 36px;
+    color: #fff;
+    border-bottom: 1px solid #fff;
+    margin: 0px;
+    margin-top:-20px;
+}
+.tipsName{
+    margin: 0px;
+    text-align: left;
+    padding: 10px;
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    color: #FFC971;
+}
+.fa-chevron-left{
+    position: absolute;
+    left: 10px;
+    font-size: 20px;
+    color: #fff;
+}
+.fa-chevron-circle-up{
+    font-size: 25px;
+    color: #FFC971;
+}
+.comment{
+    height: 30px;
+    width: 310px;
+    border-radius: 20px;
+    background: #fff;
+    border: none;
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 17px;
+    
+    
+}
+.comment::placeholder{
+    padding-left: 10px;
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    color: rgba(0, 0, 0, 0.36);
+}
+.tips hr{
+    color: #FFC971;
+    margin: 10px 0px;
 }

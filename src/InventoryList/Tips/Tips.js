@@ -1,3 +1,6 @@
+import { faThumbsUp, faThumbsDown } from '@fortawesome/free-regular-svg-icons';
+import { faChevronLeft, faChevronCircleUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Tips.css';
 import * as fb from '../../server.js';
 import React from 'react';
@@ -50,23 +53,30 @@ class Tips extends React.Component {
         const { tips, loading, comment } = this.state;
         return (
             <div>
-                <button type="button" onClick={this.goBack}>Back</button>
-                <h1>Tips</h1>
+                <button type="button" onClick={this.goBack}><FontAwesomeIcon icon={faChevronLeft} /></button>
+                <h1 className="tipsTitle">Tips</h1>
+                <h2 className="tipsName"> {itemId}</h2>
                 {loading ? 'Loading...' :
                     <div>
 
                         <div className="tipsList">
                             {tips.map((tip, index) => {
-                                return <div key={index} className="tipsItem">
-                                    {tip.text}, rating: {tip.rating}, userName: {tip.userName}<br/>
-                                    <button type="button" onClick={() => fb.changeRating({itemId, number: 1, commentId: index})}>Thumbs up</button>
-                                    <button type="button"onClick={() => fb.changeRating({itemId, number: -1, commentId: index})}>Thumbs down</button>
-                                </div>
+                                return <section className="tips">
+                                    <img src=""></img>
+                                    <div className="userName">{tip.userName}</div>
+                                    <div key={index} className="tipsItem">
+                                    {tip.text}
+                                    <hr />
+                                    <button type="button" onClick={() => fb.changeRating({itemId, number: 1, commentId: index})}><FontAwesomeIcon icon={faThumbsUp} /></button>
+                                    <button type="button"onClick={() => fb.changeRating({itemId, number: -1, commentId: index})}><FontAwesomeIcon icon={faThumbsDown} /></button>
+                                    rating: {tip.rating}
+                                    </div>
+                                </section>
                             })}
                         </div>
 
-                        <input type="text" placeholder="Write a tip here.." value={comment} onChange={this.type} />
-                        <button type="button" onClick={this.submitComment}>Submit comment</button>
+                        <input type="text" placeholder="Write a tip here.." value={comment} onChange={this.type} className="comment"/>
+                        <button type="button" onClick={this.submitComment}><FontAwesomeIcon icon={faChevronCircleUp} /></button>
                     </div>
                 }
             </div>

@@ -22,12 +22,17 @@ class Inventory extends React.Component {
         this.search = this.search.bind(this);
         this.expand = this.expand.bind(this);
         this.addItem = this.addItem.bind(this);
-        this.removeItem = this.removeItem.bind(this);
+        this.throwItem = this.throwItem.bind(this);
         this.useItem = this.useItem.bind(this);
         this.cancelPopup = this.cancelPopup.bind(this);
 
         const userId = sessionStorage.getItem('user_id');
-        fb.database.ref(`Users/${userId}`).on('value', ((item) => {
+        this.userdb = fb.database.ref(`Users/${userId}`);
+        
+    }
+    
+    componentDidMount(){
+        this.userdb.on('value', ((item) => {
             let idList = item.val().inventory;
             let data = []
             let arrayList = fb.convertToArray(idList);
@@ -42,6 +47,10 @@ class Inventory extends React.Component {
                 })
             })
         }))
+    }
+
+    componentWillUnmount(){
+        this.userdb.off();
     }
 
     search(event) {
@@ -72,7 +81,8 @@ class Inventory extends React.Component {
         }
     }
 
-    expand(event) {
+    expand(id) {
+        /*
         let id = event.target.id;
         if(!(id === '' || id === undefined) ){
             id = Number(id);
@@ -80,7 +90,8 @@ class Inventory extends React.Component {
             this.setState({
                 clicked: clicked === id ? -1 : id
             })
-        }
+        }*/
+        //this.setState({clicked: clicked === id ? -1 : id})
     }
     addItem(id, number) {
         fb.addInventoryItem(id, number);
@@ -96,16 +107,21 @@ class Inventory extends React.Component {
         })
     }
 
-    removeItem(event) {
+    throwItem(event) {
         event.preventDefault();
         const item = Number(event.target.id);
-        fb.throwAway(item);
+        fb.throwItem(item).then(()=>{
+            this.setState({clicked: -1});
+        });
+        
     }
 
     useItem(event) {
         event.preventDefault();
         const item = Number(event.target.id);
-        fb.useItem(item);
+        fb.useItem(item).then(()=>{
+            this.setState({clicked: -1});
+        });
     }
     tipsRedirect(id) {
         this.props.history.push(`/${id}/tips`);
@@ -145,7 +161,7 @@ class Inventory extends React.Component {
                         return <li key={index} className={('inventoryItem ' + (clicked === index ? 'expandedItem' : '')) +
                             (this.state.place !== place && this.state.place !== "all" ? 'hide' : '')}
                             id={index}>
-                            <section className="header" onClick={this.expand}><h1 id={index}>{name}</h1>
+                            <section className="header" onClick={()=>this.setState({clicked: clicked === index ? -1 : index})}><h1 id={index}>{name}</h1>
                                 <p>Expire in {expiration}</p>
                                 <FontAwesomeIcon icon={faChevronDown} id={index} />
                                 <article className="quantity">{quantity}x</article>
@@ -159,7 +175,7 @@ class Inventory extends React.Component {
 
                                     <button type="button" name="tips" className="button" onClick={() => this.tipsRedirect(id)}>Tips<FontAwesomeIcon icon={faChevronRight} /></button><br></br>
                                     <button type="button" name="recipes" className="button">Recipes<FontAwesomeIcon icon={faChevronRight} /></button><br></br>
-                                    <button type="button" name="Throw" className="throw" id={index} onClick={this.removeItem}>Throw</button>
+                                    <button type="button" name="Throw" className="throw" id={index} onClick={this.throwItem}>Throw</button>
                                     <button type="button" name="Use" className="use" id={index} onClick={this.useItem}>Use</button>
                                 </section> : ''}
                         </li>
