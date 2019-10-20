@@ -103,6 +103,20 @@ export function useItem(id) {
 
 }
 
+export function getProfilePic() {
+    const userId = sessionStorage.getItem('user_id');
+    return database.ref(`Users/${userId}/profilepic`).once('value').then(profilepic => {
+        return profilepic.val();
+    })
+}
+export function getThrownUsed() {
+    const userId = sessionStorage.getItem('user_id');
+    return database.ref(`Users/${userId}`).once('value').then(user => {
+        const userItem = user.val();
+        return { thrown: userItem.thrown, used: userItem.used }
+    })
+}
+
 export function convertToArray(list) {
     let newList = [];
     Object.keys(list).forEach((key) => {
