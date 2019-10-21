@@ -41,8 +41,8 @@ class Profile extends React.Component {
                     {thrown === '' || used === '' ? 'Loading...' :
                         <PieChart
                             data={[
-                                { title: 'Thrown', value: 10, color: '#F28123' },
-                                { title: 'Used', value: 2, color: '#FFC971' },
+                                { title: 'Thrown', value: thrown, color: '#F28123' },
+                                { title: 'Used', value: used, color: '#FFC971' },
                             ]}
                             label
                             labelPosition={112}

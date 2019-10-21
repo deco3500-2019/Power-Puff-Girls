@@ -201,7 +201,14 @@ export async function purchaseItem(itemList = []) {
 
 }
 
-export async function deleteItem(id) {
+export async function deleteItems(itemList = []) {
+    while (itemList.length > 0) {
+        let item = itemList.pop();
+        await deleteItem(item.id);
+    }
+}
+
+async function deleteItem(id) {
     const userId = sessionStorage.getItem('user_id');
     return database.ref(`Users/${userId}/groceryList/`).once('value').then(() => {
         return database.ref(`Users/${userId}/groceryList/${id}`).remove().then(() => {

@@ -4,6 +4,7 @@ import * as fb from '../server';
 import Popup from '../Popup/Popup';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Notification from '../Notification/Notification';
 
 class GroceryList extends React.Component {
     constructor() {
@@ -14,7 +15,8 @@ class GroceryList extends React.Component {
             addItemRequest: [],
             searchResults: [],
             allInventory: [],
-            addItemName: ''
+            addItemName: '',
+            notify: false
         })
 
         const userId = sessionStorage.getItem('user_id');
@@ -24,6 +26,8 @@ class GroceryList extends React.Component {
         this.addItem = this.addItem.bind(this);
         this.cancelPopup = this.cancelPopup.bind(this);
         this.addItemRequest = this.addItemRequest.bind(this);
+        this.deleteItems = this.deleteItems.bind(this);
+        this.purchaseItems = this.purchaseItems.bind(this);
     }
 
     componentDidMount(){
@@ -97,28 +101,37 @@ class GroceryList extends React.Component {
     }
     purchaseItems(){
         let checklist = document.querySelectorAll('div div ul li');
-        let itemList = []
+        let itemList = [];
+        let delItemList = [];
         checklist.forEach((item)=>{
             let checkbox = item.querySelector("input");
             if(checkbox.checked){
                 itemList.push({id: item.dataset["purchaseid"], quantity: item.dataset["quantity"]})
+                delItemList.push({id: item.dataset["deleteid"]})
             }
         })
         fb.purchaseItem(itemList);
+        fb.deleteItems(delItemList).then(()=>this.setState({notify:true}));
+        setTimeout(()=> this.setState({notify:false}), 3000);
+
     }
     deleteItems(){
         let checklist = document.querySelectorAll('div div ul li');
+        let itemList = [];
         checklist.forEach((item)=>{
             let checkbox = item.querySelector("input");
             if(checkbox.checked){
-                fb.deleteItem(item.dataset["deleteid"]);
+                itemList.push({id: item.dataset["deleteid"]})
+                
             }
         })
+        fb.deleteItems(itemList).then(()=>this.render());;
     }
     render() {
         const { groceryList, loading, addItemRequest } = this.state;
         return (
             <div>
+                {this.state.notify ? <Notification /> : null}
                 {loading ? 'Loading...' :
                     <div>
                         {addItemRequest.length !== 0 ? <Popup addFunc={this.addItem} cancelFunc={this.cancelPopup} item={addItemRequest} /> : null}
@@ -134,7 +147,9 @@ class GroceryList extends React.Component {
                         <ul className="groceryList">
                             {groceryList.map((item, index) => {
                                 return (<li key={item.id} data-purchaseid={item.id} data-deleteid={index} data-quantity={item.quantity} >
-                                            <input type="checkbox" key={item.id} className="groceyItem" value={item.name} />
+                                            <input type="checkbox" key={item.id} className="groceyItem" value={item.name}  
+                                            onClick={(event) => event.target.parentNode.style = 'background: rgba(255,255,255,'+ (event.target.checked ? 0.5 : 1) + ')'
+                                            }/>
                                             {item.name} 
                                             <div className="itemQuantity">{item.quantity}x</div>
                                         </li>);
