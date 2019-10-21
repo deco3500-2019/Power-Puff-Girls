@@ -14,7 +14,6 @@ class Profile extends React.Component {
         })
 
         fb.getProfilePic().then(pic => {
-            console.log(pic);
             this.setState({
                 picture: pic
             })
@@ -32,7 +31,6 @@ class Profile extends React.Component {
     }
     render() {
         const { picture, thrown, used } = this.state;
-        console.log(thrown, used); //Thrown and used data. Might have to be converted to number to be used in the piechart?
         return (
             <div className="profile">
                 <h1>Profile</h1>
