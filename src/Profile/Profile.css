@@ -8,11 +8,34 @@
     font-style: normal;
     font-weight: bold;
     font-size: 14px;
-    width: 80%;
+    width: 94%;
 }
-.pieChart{
+.pieChart, .stats{
     padding: 10px;
-    background-color: #fff;
-    margin: 10px;
+    background-color: rgba(255, 255, 255, 0.6);
+    margin: 0px 10px 10px 10px;
     border-radius: 4px;
+}
+.stats{
+    text-align: left;
+}
+.profile img{
+    width: 150px;
+    height: 150px;
+    background-size: contain;
+    border-radius: 100px;
+    margin: 10px 10px;
+}
+.profile h1{
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 36px;
+    color: #fff;
+    border-bottom: 1px solid #fff;
+    margin: 0px;
+}
+.profile hr{
+    color: #FFC971;
+    margin: 10px 0px;
 }

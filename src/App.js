@@ -24,8 +24,8 @@ function App() {
             <Route path="/" render={() => (<Redirect to="/inventory" />)} />
           </Switch>
           <div className="menu">
-            <Link to="/inventory" className="menuItems"><FontAwesomeIcon icon={faShoppingCart}/></Link>
-            <Link to="/groceryList" className="menuItems"><FontAwesomeIcon icon={faArchive}/></Link>
+            <Link to="/inventory" className="menuItems"><FontAwesomeIcon icon={faArchive}/></Link>
+            <Link to="/groceryList" className="menuItems"><FontAwesomeIcon icon={faShoppingCart}/></Link>
             <Link to="/profile" className="menuItems"><FontAwesomeIcon icon={faUser}/></Link>
           </div>
         </div>

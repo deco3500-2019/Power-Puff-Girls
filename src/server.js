@@ -109,6 +109,12 @@ export function getProfilePic() {
         return profilepic.val();
     })
 }
+export function getUserName() {
+    const userId = sessionStorage.getItem('user_id');
+    return database.ref(`Users/${userId}/username`).once('value').then(userName => {
+        return userName.val();
+    })
+}
 export function getThrownUsed() {
     const userId = sessionStorage.getItem('user_id');
     return database.ref(`Users/${userId}`).once('value').then(user => {
