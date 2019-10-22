@@ -6,6 +6,9 @@ body{
     font-family: 'Open Sans Condensed', sans-serif;
     margin-top: 20px;
 }
+.inventoryPage{
+    margin-bottom:100px;
+}
 .navbar ul{
     padding: 0px;
     margin-bottom: 0px;
@@ -233,7 +236,7 @@ hr{
 .inputQuantity{
     background-color: transparent;
     border: none;
-    height: 40px;
+    padding: 15px;
 }
 .inputQuantity::placeholder{
     color: #000;

@@ -133,7 +133,8 @@ class Inventory extends React.Component {
     }
     render() {
         const { clicked, loading, data, addItemRequest } = this.state;
-        return (<div>
+        return (
+        <div className="inventoryPage"> 
             {addItemRequest.length !== 0 ? <Popup addFunc={this.addItem} cancelFunc={this.cancelPopup} item={addItemRequest} /> : null}
             <button className="scan">Scan</button>
             <input search="text" placeholder="Add item" value={this.state.addItemName}

@@ -130,7 +130,7 @@ class GroceryList extends React.Component {
     render() {
         const { groceryList, loading, addItemRequest } = this.state;
         return (
-            <div>
+            <div className="groceryPage">
                 {this.state.notify ? <Notification /> : null}
                 {loading ? 'Loading...' :
                     <div>

@@ -19,6 +19,9 @@
 .stats{
     text-align: left;
 }
+.profile{
+    margin-bottom:100px;
+}
 .profile img{
     width: 150px;
     height: 150px;
