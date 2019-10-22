@@ -170,9 +170,10 @@ class Inventory extends React.Component {
                             {clicked === index ?
                                 <section className="expandedSection" id={index}>
                                     <input type="number" placeholder={quantity} id={index} className="inputQuantity"></input>
-                                    <button type="button" name="subtract" onClick={() => fb.decrementQuantity(index)}><FontAwesomeIcon icon={faMinus} /></button>
-                                    <button type="button" name="add" onClick={() => fb.incrementQuantity(index)}><FontAwesomeIcon icon={faPlus} /></button><br></br><br></br>
-
+                                    <div className="subadd">
+                                    <div name="subtract" onClick={() => fb.decrementQuantity(index)}><FontAwesomeIcon icon={faMinus} /></div>
+                                    <div name="add" onClick={() => fb.incrementQuantity(index)}><FontAwesomeIcon icon={faPlus} /></div><br></br><br></br>
+                                    </div>
                                     <button type="button" name="tips" className="button" onClick={() => this.tipsRedirect(id)}>Tips<FontAwesomeIcon icon={faChevronRight} /></button><br></br>
                                     <button type="button" name="recipes" className="button">Recipes<FontAwesomeIcon icon={faChevronRight} /></button><br></br>
                                     <button type="button" name="Throw" className="throw" id={index} onClick={this.throwItem}>Throw</button>

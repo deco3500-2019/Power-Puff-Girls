@@ -161,9 +161,7 @@ hr{
 .fa-plus, .fa-minus{
     color: #EE6352;
     font-size: 30px;
-    margin: 0px 5px 0px 5px;
-    position: relative;
-    left: 90px;
+    margin: 0px 5px 0px 10px;
     background-color: none;
     border: none;
 }
@@ -246,4 +244,12 @@ hr{
 }
 .hide{
     display: none;
+}
+.subadd{
+    display: flex;
+    justify-content:baseline;
+    flex-direction: row;
+    width: 20px;
+    float: right;
+    margin-right: 60px;
 }
