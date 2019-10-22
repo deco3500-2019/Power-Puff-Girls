@@ -31,10 +31,12 @@ export default class Popup extends React.Component {
             <section className="overlay">
                 <div className="box">
                     <h1>Enter amount</h1>
-                    <h2>{name}</h2>
-                    <button type="button" name="decrease" onClick={this.decrease} className="decrese"><FontAwesomeIcon icon={faMinusCircle} /></button>
-                    <input type="number" className="inputQuantity" value={number} readOnly/>
-                    <button type="button" name="increase" onClick={this.increase}><FontAwesomeIcon icon={faPlusCircle} /></button><br></br>
+                    <div className="box2">
+                        <h2>{name}</h2>
+                        <div name="decrease" onClick={this.decrease} className="decrese"><FontAwesomeIcon icon={faMinusCircle} /></div>
+                        <input type="number" className="inputQuantity" value={number} readOnly/>
+                        <div name="increase" onClick={this.increase}><FontAwesomeIcon icon={faPlusCircle} /></div><br></br>
+                    </div>
                     <button type="button" name="add" className="bbutton" onClick={() => this.props.addFunc(id, number)} style={{ borderRight: '0.5px solid rgba(17, 17, 17, 0.5)' }}>Add</button>
                     <button type="button" name="cancel" className="bbutton" onClick={this.props.cancelFunc} style={{ borderLeft: '0.5px solid rgba(17, 17, 17, 0.5)' }}>Cancel</button>
                 </div>

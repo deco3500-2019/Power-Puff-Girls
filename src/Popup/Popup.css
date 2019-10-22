@@ -31,6 +31,7 @@
     font-size: 18px;
     line-height: 25px;
     color: #F2994A;
+    margin-bottom: 0px;
 }
 .box h2{
     display: inline;
@@ -63,4 +64,10 @@
     color: #EE6352;
     font-size: 25px;
     flex-wrap: wrap;
+}
+.box2{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
