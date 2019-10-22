@@ -11,7 +11,7 @@ https://www.figma.com/file/A51Ub4H54SpoeDZtGCbbAl/FoodWaste_1.0?node-id=0%3A1
 
 Instructions
 Before use the prototype from your phone please follow the instruction below. 
-  1. Download a Figma Mirror App from google play or Apple store. 
+  1. Download a Figma Mirror App from Google play or Apple store. 
   2. Create an account 
   3. Turn on the Wifi on your phone and select a Frame or Component on the canvas. 
 
@@ -23,7 +23,7 @@ https://www.figma.com/file/sWjfFNoQyk4Zz4ic5hUMtD/FoodWaste_2.0?node-id=7%3A395
 
 Instructions
 Before use the prototype from your phone please follow the instruction below. 
-  1. Download a Figma Mirror App from google play or Apple store. 
+  1. Download a Figma Mirror App from Google play or Apple store. 
   2. Create an account 
   3. Turn on the Wifi on your phone and select a Frame or Component on the canvas. 
 
