@@ -164,6 +164,8 @@ hr{
     margin: 0px 5px 0px 5px;
     position: relative;
     left: 90px;
+    background-color: none;
+    border: none;
 }
 .fa-chevron-right{
     font-size: 14px;
