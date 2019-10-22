@@ -16,7 +16,6 @@
 .App-link {
   color: #09d3ac;
 }
-
 .menu{
   position: fixed;
   bottom: 0;
@@ -25,16 +24,15 @@
   height: 70px;
   display: flex;
   justify-content: space-between;
-  background-color: #fff;
+  background-color: #fafafa;
 }
-
 .menuItems{
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 1em;
   text-decoration: none;
-  background-color: #fafafa;
+  background-color: none;
 }
 .menuItem:active{
   background: rgba(242, 153, 74, 0.4);

@@ -158,8 +158,10 @@ class GroceryList extends React.Component {
                         </ul>
                     </div>
                 }
+                <div className="groceryButtons">
                 <button type="button" name="Purchase" className="purchase" onClick={this.purchaseItems}>Purchase</button>
                 <button type="button" name="Delete" className="delete" onClick={this.deleteItems}>Delete</button>
+                </div>
             </div>
         )
     }
