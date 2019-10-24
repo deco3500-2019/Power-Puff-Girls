@@ -52,5 +52,8 @@ Username: power
 Password: puff  
 Try to not delete everything from a database, as we are using a JSON-based database this might delete full tables and create issues. 
 
-
+To run the project with the code provided on GitHub, you need to do the following:  
+   1. Make sure you have node installed 
+   2. Type "npm install" in the console or terminal 
+   3. Type "npm start" to run the project locally
 
