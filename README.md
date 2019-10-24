@@ -47,7 +47,7 @@ Instructions
 The prototype is made for a mobile sized screen. Either enter the link on your phone, or:  
 enter the link in a browser that has developer mode (E.g. Chrome, Safari). Right click and press inspect. From there press the top left icon that says "Toggle device toolbar". In the top menu on the center on the page you will have the option to choose from different phone formats. This prototype is mainly developed for one of the newer iPhone sizes.   
 
-From there you can log in with this information. 
+From there you can log in with this information.  
 Username: power  
 Password: puff  
 Try to not delete everything from a database, as we are using a JSON-based database this might delete full tables and create issues. 
