@@ -7,6 +7,9 @@ https://imgur.com/DePRElP
 ## Link To Project Proposal
 https://github.com/deco3500-2019/Power-Puff-Girls/wiki/Project-Proposal
 
+## Link to Low Fidelity Documentation  
+https://github.com/deco3500-2019/Power-Puff-Girls/wiki/Low-Fidelity-Prototype
+
 ## Link to Low Fidelity Prototype
 https://www.figma.com/file/A51Ub4H54SpoeDZtGCbbAl/FoodWaste_1.0?node-id=0%3A1
 
@@ -18,6 +21,9 @@ Before use the prototype from your phone please follow the instruction below.
 
 Other the option:  
 You can test the prototype directly from the link and use the app from the website. 
+
+## Link to Medium Fidelity Documentation  
+https://github.com/deco3500-2019/Power-Puff-Girls/wiki/Medium-Fidelity-Prototype
 
 ## Link to Medium Fidelity Prototype
 https://www.figma.com/file/sWjfFNoQyk4Zz4ic5hUMtD/FoodWaste_2.0?node-id=7%3A395
@@ -31,6 +37,9 @@ Before use the prototype from your phone please follow the instruction below.
 Other option:  
 You can test the prototype directly from the link and use the app from the website. 
 
+## Link to High Fidelity Documentation  
+https://github.com/deco3500-2019/Power-Puff-Girls/wiki/High-Fidelity-Prototype
+
 ## Link to High Fidelity Prototype
 https://s4540545-ppg.uqcloud.net/profile
 
@@ -43,4 +52,5 @@ Username: power
 Password: puff  
 Try to not delete everything from a database, as we are using a JSON-based database this might delete full tables and create issues. 
 
-## Link to Working Prototype, Promotional Material, and Documentation  
+
+
